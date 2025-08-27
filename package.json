@@ -1,0 +1,19 @@
+{
+  "name": "memo-app",
+  "version": "1.0.0",
+  "description": "모던한 메모 앱",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": ["memo", "app", "express"],
+  "author": "",
+  "license": "MIT"
+}
