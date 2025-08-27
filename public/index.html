@@ -16,6 +16,28 @@
             <p class="subtitle">생각을 기록하고 아이디어를 보관하세요</p>
         </header>
 
+        <!-- 광고 섹션 -->
+        <div class="ad-section" id="adSection">
+            <div class="ad-container">
+                <div class="ad-content">
+                    <div class="ad-badge">
+                        <i class="fas fa-ad"></i> 광고
+                    </div>
+                    <div class="ad-text">
+                        <h3 class="ad-title">광고 제목</h3>
+                        <p class="ad-description">광고 설명을 여기에 입력하세요. 사용자에게 유용한 정보를 제공합니다.</p>
+                    </div>
+                    <a href="#" class="ad-link" id="adLink" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-external-link-alt"></i>
+                        자세히 보기
+                    </a>
+                </div>
+                <button class="ad-close-btn" id="adCloseBtn" title="광고 닫기">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
         <div class="memo-form">
             <div class="input-group">
                 <input type="text" id="memoTitle" placeholder="메모 제목을 입력하세요..." maxlength="50">
@@ -46,6 +68,7 @@
     </div>
 
     <script src="supabase-config.js"></script>
+    <script src="ad-config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

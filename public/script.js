@@ -19,6 +19,9 @@ class MemoApp {
         await this.loadMemos();
         this.bindEvents();
         this.updateUI();
+        
+        // 기본 광고 설정
+        this.setupDefaultAd();
     }
 
     bindEvents() {
@@ -37,6 +40,11 @@ class MemoApp {
         // 글자 수 카운트
         document.getElementById('memoContent').addEventListener('input', (e) => {
             this.updateCharCount(e.target.value);
+        });
+
+        // 광고 닫기 버튼
+        document.getElementById('adCloseBtn').addEventListener('click', () => {
+            this.hideAd();
         });
 
         // 초기 글자 수 표시
@@ -352,6 +360,50 @@ class MemoApp {
             info: '#3498db'
         };
         return colors[type] || '#3498db';
+    }
+
+    // 광고 관련 메서드들
+    updateAd(title, description, link) {
+        const adTitle = document.querySelector('.ad-title');
+        const adDescription = document.querySelector('.ad-description');
+        const adLink = document.getElementById('adLink');
+
+        if (adTitle) adTitle.textContent = title;
+        if (adDescription) adDescription.textContent = description;
+        if (adLink) adLink.href = link;
+
+        // 광고 섹션 표시
+        this.showAd();
+    }
+
+    showAd() {
+        const adSection = document.getElementById('adSection');
+        if (adSection) {
+            adSection.style.display = 'block';
+            adSection.style.animation = 'slideInDown 0.6s ease-out';
+        }
+    }
+
+    hideAd() {
+        const adSection = document.getElementById('adSection');
+        if (adSection) {
+            adSection.style.animation = 'slideInDown 0.6s ease-out reverse';
+            setTimeout(() => {
+                adSection.style.display = 'none';
+            }, 600);
+        }
+    }
+
+    // 광고 설정 예시 (실제 사용 시 이 부분을 수정하면 됩니다)
+    setupDefaultAd() {
+        // 광고 설정 파일의 설정을 사용
+        if (window.AD_CONFIG && window.AD_CONFIG.enabled) {
+            this.updateAd(
+                window.AD_CONFIG.title,
+                window.AD_CONFIG.description,
+                window.AD_CONFIG.link
+            );
+        }
     }
 }
 
