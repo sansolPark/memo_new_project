@@ -18,12 +18,17 @@
 npm install
 ```
 
-### 2. 개발 서버 실행
+### 2. Supabase 설정
+1. [Supabase](https://supabase.com)에서 새 프로젝트 생성
+2. `supabase-schema.sql` 파일의 내용을 Supabase SQL 편집기에서 실행
+3. `public/supabase-config.js` 파일에서 `YOUR_SUPABASE_URL`과 `YOUR_SUPABASE_ANON_KEY`를 실제 값으로 교체
+
+### 3. 개발 서버 실행
 ```bash
 npm run dev
 ```
 
-### 3. 프로덕션 서버 실행
+### 4. 프로덕션 서버 실행
 ```bash
 npm start
 ```
@@ -34,8 +39,8 @@ npm start
 
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+)
 - **Backend**: Node.js, Express.js
+- **데이터베이스**: Supabase (PostgreSQL)
 - **스타일링**: CSS Grid, Flexbox, CSS 애니메이션
-- **데이터 저장**: Local Storage
 - **폰트**: Google Fonts (Noto Sans KR)
 - **아이콘**: Font Awesome
 
@@ -67,12 +72,14 @@ npm start
 ```
 memo_new_project/
 ├── public/
-│   ├── index.html      # 메인 HTML 파일
-│   ├── styles.css      # CSS 스타일
-│   └── script.js       # JavaScript 기능
-├── server.js           # Express.js 서버
-├── package.json        # 프로젝트 설정
-└── README.md          # 프로젝트 설명
+│   ├── index.html          # 메인 HTML 파일
+│   ├── styles.css          # CSS 스타일
+│   ├── script.js           # JavaScript 기능
+│   └── supabase-config.js  # Supabase 설정
+├── server.js               # Express.js 서버
+├── package.json            # 프로젝트 설정
+├── supabase-schema.sql     # Supabase 데이터베이스 스키마
+└── README.md              # 프로젝트 설명
 ```
 
 ## 🔧 커스터마이징
@@ -82,6 +89,9 @@ memo_new_project/
 
 ### 기능 추가
 `public/script.js` 파일의 `MemoApp` 클래스에 새로운 메서드를 추가하여 기능을 확장할 수 있습니다.
+
+### 데이터베이스 설정
+`public/supabase-config.js` 파일에서 Supabase 연결 정보를 수정할 수 있습니다.
 
 ## 📝 라이선스
 

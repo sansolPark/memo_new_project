@@ -2,11 +2,12 @@ class MemoApp {
     constructor() {
         this.memos = [];
         this.currentEditId = null;
+        this.supabase = window.supabaseClient;
         this.init();
     }
 
-    init() {
-        this.loadMemos();
+    async init() {
+        await this.loadMemos();
         this.bindEvents();
         this.updateUI();
     }
@@ -33,7 +34,7 @@ class MemoApp {
         this.updateCharCount('');
     }
 
-    addMemo() {
+    async addMemo() {
         const titleInput = document.getElementById('memoTitle');
         const contentInput = document.getElementById('memoContent');
         
@@ -47,22 +48,36 @@ class MemoApp {
 
         if (this.currentEditId !== null) {
             // 편집 모드
-            this.updateMemo(this.currentEditId, title, content);
+            await this.updateMemo(this.currentEditId, title, content);
             this.currentEditId = null;
             document.getElementById('addMemoBtn').innerHTML = '<i class="fas fa-plus"></i> 메모 추가';
         } else {
             // 새 메모 추가
             const memo = {
-                id: Date.now(),
                 title: title || '제목 없음',
                 content: content || '내용 없음',
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
             };
 
-            this.memos.unshift(memo);
-            this.saveMemos();
-            this.showNotification('메모가 추가되었습니다.', 'success');
+            try {
+                const { data, error } = await this.supabase
+                    .from('memos')
+                    .insert([memo])
+                    .select();
+
+                if (error) throw error;
+
+                // 새로 생성된 메모를 배열에 추가
+                if (data && data.length > 0) {
+                    this.memos.unshift(data[0]);
+                    this.showNotification('메모가 추가되었습니다.', 'success');
+                }
+            } catch (error) {
+                console.error('메모 추가 오류:', error);
+                this.showNotification('메모 추가 중 오류가 발생했습니다.', 'error');
+                return;
+            }
         }
 
         // 입력 필드 초기화
@@ -74,24 +89,51 @@ class MemoApp {
         this.updateUI();
     }
 
-    updateMemo(id, title, content) {
-        const memoIndex = this.memos.findIndex(memo => memo.id === id);
-        if (memoIndex !== -1) {
-            this.memos[memoIndex].title = title || '제목 없음';
-            this.memos[memoIndex].content = content || '내용 없음';
-            this.memos[memoIndex].updatedAt = new Date().toISOString();
-            
-            this.saveMemos();
+    async updateMemo(id, title, content) {
+        try {
+            const { data, error } = await this.supabase
+                .from('memos')
+                .update({
+                    title: title || '제목 없음',
+                    content: content || '내용 없음',
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', id)
+                .select();
+
+            if (error) throw error;
+
+            // 로컬 배열 업데이트
+            const memoIndex = this.memos.findIndex(memo => memo.id === id);
+            if (memoIndex !== -1 && data && data.length > 0) {
+                this.memos[memoIndex] = data[0];
+            }
+
             this.showNotification('메모가 수정되었습니다.', 'success');
+        } catch (error) {
+            console.error('메모 수정 오류:', error);
+            this.showNotification('메모 수정 중 오류가 발생했습니다.', 'error');
         }
     }
 
-    deleteMemo(id) {
+    async deleteMemo(id) {
         if (confirm('정말로 이 메모를 삭제하시겠습니까?')) {
-            this.memos = this.memos.filter(memo => memo.id !== id);
-            this.saveMemos();
-            this.updateUI();
-            this.showNotification('메모가 삭제되었습니다.', 'info');
+            try {
+                const { error } = await this.supabase
+                    .from('memos')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                // 로컬 배열에서 제거
+                this.memos = this.memos.filter(memo => memo.id !== id);
+                this.updateUI();
+                this.showNotification('메모가 삭제되었습니다.', 'info');
+            } catch (error) {
+                console.error('메모 삭제 오류:', error);
+                this.showNotification('메모 삭제 중 오류가 발생했습니다.', 'error');
+            }
         }
     }
 
@@ -146,10 +188,10 @@ class MemoApp {
     }
 
     renderMemo(memo) {
-        const isEdited = memo.updatedAt !== memo.createdAt;
+        const isEdited = memo.updated_at !== memo.created_at;
         const dateText = isEdited ? 
-            `수정됨: ${this.formatDate(memo.updatedAt)}` : 
-            this.formatDate(memo.createdAt);
+            `수정됨: ${this.formatDate(memo.updated_at)}` : 
+            this.formatDate(memo.created_at);
 
         return `
             <div class="memo-item" data-id="${memo.id}">
@@ -194,19 +236,20 @@ class MemoApp {
         }
     }
 
-    saveMemos() {
-        localStorage.setItem('memos', JSON.stringify(this.memos));
-    }
+    async loadMemos() {
+        try {
+            const { data, error } = await this.supabase
+                .from('memos')
+                .select('*')
+                .order('created_at', { ascending: false });
 
-    loadMemos() {
-        const savedMemos = localStorage.getItem('memos');
-        if (savedMemos) {
-            try {
-                this.memos = JSON.parse(savedMemos);
-            } catch (e) {
-                console.error('메모 로드 중 오류 발생:', e);
-                this.memos = [];
-            }
+            if (error) throw error;
+
+            this.memos = data || [];
+        } catch (error) {
+            console.error('메모 로드 중 오류 발생:', error);
+            this.showNotification('메모를 불러오는 중 오류가 발생했습니다.', 'error');
+            this.memos = [];
         }
     }
 
