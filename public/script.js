@@ -2,11 +2,20 @@ class MemoApp {
     constructor() {
         this.memos = [];
         this.currentEditId = null;
-        this.supabase = window.supabaseClient;
+        this.supabase = null;
         this.init();
     }
 
     async init() {
+        // Supabase 클라이언트 초기화 확인
+        if (window.supabaseClient) {
+            this.supabase = window.supabaseClient;
+        } else {
+            console.error('Supabase 클라이언트가 초기화되지 않았습니다.');
+            this.showNotification('Supabase 연결에 실패했습니다. 페이지를 새로고침해주세요.', 'error');
+            return;
+        }
+        
         await this.loadMemos();
         this.bindEvents();
         this.updateUI();
@@ -61,12 +70,20 @@ class MemoApp {
             };
 
             try {
+                console.log('메모 추가 시도:', memo);
+                console.log('Supabase 클라이언트:', this.supabase);
+                
                 const { data, error } = await this.supabase
                     .from('memos')
                     .insert([memo])
                     .select();
 
-                if (error) throw error;
+                if (error) {
+                    console.error('Supabase 오류:', error);
+                    throw error;
+                }
+
+                console.log('메모 추가 성공:', data);
 
                 // 새로 생성된 메모를 배열에 추가
                 if (data && data.length > 0) {
@@ -75,7 +92,7 @@ class MemoApp {
                 }
             } catch (error) {
                 console.error('메모 추가 오류:', error);
-                this.showNotification('메모 추가 중 오류가 발생했습니다.', 'error');
+                this.showNotification(`메모 추가 중 오류가 발생했습니다: ${error.message}`, 'error');
                 return;
             }
         }
