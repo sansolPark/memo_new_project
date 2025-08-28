@@ -145,11 +145,21 @@ body {
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
+    /* 모바일 터치 최적화 */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
 }
 
 .ad-close-btn:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: scale(1.1);
+}
+
+/* 모바일에서 터치 시 시각적 피드백 */
+.ad-close-btn:active {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0.95);
 }
 
 /* 광고 애니메이션 */

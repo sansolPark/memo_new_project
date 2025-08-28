@@ -42,10 +42,31 @@ class MemoApp {
             this.updateCharCount(e.target.value);
         });
 
-        // 광고 닫기 버튼
-        document.getElementById('adCloseBtn').addEventListener('click', () => {
+        // 광고 닫기 버튼 - 클릭과 터치 이벤트 모두 지원
+        const adCloseBtn = document.getElementById('adCloseBtn');
+        adCloseBtn.addEventListener('click', () => {
             this.hideAd();
         });
+        
+        // 모바일 터치 이벤트 지원
+        adCloseBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.hideAd();
+        });
+
+        // 설정 버튼 - 광고 다시 표시
+        const settingsBtn = document.getElementById('settingsBtn');
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', () => {
+                this.showAdAgain();
+            });
+            
+            // 모바일 터치 이벤트 지원
+            settingsBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.showAdAgain();
+            });
+        }
 
         // 초기 글자 수 표시
         this.updateCharCount('');
@@ -387,6 +408,9 @@ class MemoApp {
     hideAd() {
         const adSection = document.getElementById('adSection');
         if (adSection) {
+            // 로컬 스토리지에 광고 숨김 상태 저장
+            localStorage.setItem('hiddenAds', 'true');
+            
             adSection.style.animation = 'slideInDown 0.6s ease-out reverse';
             setTimeout(() => {
                 adSection.style.display = 'none';
@@ -394,8 +418,32 @@ class MemoApp {
         }
     }
 
+    // 광고를 다시 표시하는 메서드
+    showAdAgain() {
+        // 로컬 스토리지에서 광고 숨김 상태 제거
+        localStorage.removeItem('hiddenAds');
+        
+        // 광고 설정 파일의 설정을 사용하여 광고 표시
+        if (window.AD_CONFIG && window.AD_CONFIG.enabled) {
+            this.updateAd(
+                window.AD_CONFIG.title,
+                window.AD_CONFIG.description,
+                window.AD_CONFIG.link
+            );
+        }
+        
+        this.showNotification('광고를 다시 표시합니다.', 'info');
+    }
+
     // 광고 설정 예시 (실제 사용 시 이 부분을 수정하면 됩니다)
     setupDefaultAd() {
+        // 로컬 스토리지에서 광고 숨김 상태 확인
+        const hiddenAds = localStorage.getItem('hiddenAds');
+        if (hiddenAds === 'true') {
+            // 광고가 숨겨진 상태라면 표시하지 않음
+            return;
+        }
+        
         // 광고 설정 파일의 설정을 사용
         if (window.AD_CONFIG && window.AD_CONFIG.enabled) {
             this.updateAd(
