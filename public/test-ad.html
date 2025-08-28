@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>광고 숨기기 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>광고 숨기기 기능 테스트</h1>
+        
+        <h3>테스트 버튼들:</h3>
+        <button class="test-button" onclick="testHideAd()">광고 숨기기 테스트</button>
+        <button class="test-button" onclick="testShowAd()">광고 표시 테스트</button>
+        <button class="test-button" onclick="checkLocalStorage()">로컬 스토리지 확인</button>
+        <button class="test-button" onclick="clearLocalStorage()">로컬 스토리지 초기화</button>
+        
+        <h3>로그:</h3>
+        <div id="log" class="log"></div>
+        
+        <h3>광고 섹션:</h3>
+        <div class="ad-section" id="adSection" style="display: block;">
+            <div class="ad-container" style="background: #ff6b6b; color: white; padding: 20px; border-radius: 10px; margin: 10px 0;">
+                <div class="ad-content">
+                    <div class="ad-badge" style="background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 15px; display: inline-block;">
+                        <i class="fas fa-ad"></i> 광고
+                    </div>
+                    <div class="ad-text">
+                        <h3 class="ad-title">테스트 광고 제목</h3>
+                        <p class="ad-description">이것은 테스트용 광고입니다. X 버튼을 클릭해보세요.</p>
+                    </div>
+                    <a href="#" class="ad-link" style="color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 10px 15px; border-radius: 20px; display: inline-block; margin-top: 10px;">
+                        <i class="fas fa-external-link-alt"></i> 자세히 보기
+                    </a>
+                </div>
+                <button class="ad-close-btn" id="adCloseBtn" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.textContent += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function testHideAd() {
+            log('광고 숨기기 테스트 시작...');
+            
+            const adSection = document.getElementById('adSection');
+            if (adSection) {
+                log('광고 섹션을 찾았습니다.');
+                
+                // 로컬 스토리지에 상태 저장
+                localStorage.setItem('hiddenAds', 'true');
+                log('로컬 스토리지에 광고 숨김 상태 저장됨');
+                
+                // 광고 숨기기
+                adSection.style.display = 'none';
+                log('광고가 숨겨졌습니다.');
+                
+                log('테스트 완료: 광고가 성공적으로 숨겨졌습니다.');
+            } else {
+                log('오류: 광고 섹션을 찾을 수 없습니다.');
+            }
+        }
+
+        function testShowAd() {
+            log('광고 표시 테스트 시작...');
+            
+            const adSection = document.getElementById('adSection');
+            if (adSection) {
+                log('광고 섹션을 찾았습니다.');
+                
+                // 로컬 스토리지에서 상태 제거
+                localStorage.removeItem('hiddenAds');
+                log('로컬 스토리지에서 광고 숨김 상태 제거됨');
+                
+                // 광고 표시
+                adSection.style.display = 'block';
+                log('광고가 표시되었습니다.');
+                
+                log('테스트 완료: 광고가 성공적으로 표시되었습니다.');
+            } else {
+                log('오류: 광고 섹션을 찾을 수 없습니다.');
+            }
+        }
+
+        function checkLocalStorage() {
+            const hiddenAds = localStorage.getItem('hiddenAds');
+            log(`로컬 스토리지 상태: hiddenAds = ${hiddenAds}`);
+            
+            const adSection = document.getElementById('adSection');
+            const isVisible = adSection.style.display !== 'none';
+            log(`광고 섹션 표시 상태: ${isVisible ? '표시됨' : '숨겨짐'}`);
+        }
+
+        function clearLocalStorage() {
+            localStorage.removeItem('hiddenAds');
+            log('로컬 스토리지가 초기화되었습니다.');
+            
+            const adSection = document.getElementById('adSection');
+            adSection.style.display = 'block';
+            log('광고가 다시 표시되었습니다.');
+        }
+
+        // 페이지 로드 시 초기 상태 확인
+        window.addEventListener('load', () => {
+            log('페이지가 로드되었습니다.');
+            checkLocalStorage();
+            
+            // 광고 닫기 버튼에 이벤트 리스너 추가
+            const adCloseBtn = document.getElementById('adCloseBtn');
+            if (adCloseBtn) {
+                adCloseBtn.addEventListener('click', () => {
+                    log('광고 닫기 버튼이 클릭되었습니다.');
+                    testHideAd();
+                });
+                
+                // 터치 이벤트도 추가
+                adCloseBtn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    log('광고 닫기 버튼이 터치되었습니다.');
+                    testHideAd();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

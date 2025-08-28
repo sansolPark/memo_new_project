@@ -44,15 +44,24 @@ class MemoApp {
 
         // 광고 닫기 버튼 - 클릭과 터치 이벤트 모두 지원
         const adCloseBtn = document.getElementById('adCloseBtn');
-        adCloseBtn.addEventListener('click', () => {
-            this.hideAd();
-        });
-        
-        // 모바일 터치 이벤트 지원
-        adCloseBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.hideAd();
-        });
+        if (adCloseBtn) {
+            console.log('광고 닫기 버튼을 찾았습니다.');
+            
+            adCloseBtn.addEventListener('click', (e) => {
+                console.log('광고 닫기 버튼 클릭됨');
+                e.preventDefault();
+                this.hideAd();
+            });
+            
+            // 모바일 터치 이벤트 지원
+            adCloseBtn.addEventListener('touchstart', (e) => {
+                console.log('광고 닫기 버튼 터치됨');
+                e.preventDefault();
+                this.hideAd();
+            });
+        } else {
+            console.error('광고 닫기 버튼을 찾을 수 없습니다.');
+        }
 
         // 설정 버튼 - 광고 다시 표시
         const settingsBtn = document.getElementById('settingsBtn');
@@ -420,15 +429,27 @@ class MemoApp {
 
     // 광고를 다시 표시하는 메서드
     showAdAgain() {
+        console.log('showAdAgain 메서드 호출됨');
+        
         // 로컬 스토리지에서 광고 숨김 상태 제거
         localStorage.removeItem('hiddenAds');
+        console.log('로컬 스토리지에서 광고 숨김 상태 제거됨');
         
         // 광고 설정 파일의 설정을 사용하여 광고 표시
         if (window.AD_CONFIG && window.AD_CONFIG.enabled) {
+            console.log('광고 설정을 사용하여 광고 표시');
             this.updateAd(
                 window.AD_CONFIG.title,
                 window.AD_CONFIG.description,
                 window.AD_CONFIG.link
+            );
+        } else {
+            console.log('광고 설정이 없어 기본 광고 표시');
+            // 기본 광고 내용으로 표시
+            this.updateAd(
+                '광고 제목',
+                '광고 설명을 여기에 입력하세요. 사용자에게 유용한 정보를 제공합니다.',
+                '#'
             );
         }
         
