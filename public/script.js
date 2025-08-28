@@ -42,16 +42,13 @@ class MemoApp {
             this.updateCharCount(e.target.value);
         });
 
-        // 광고 닫기 버튼 - 클릭과 터치 이벤트 모두 지원
+        // 광고 닫기 버튼
         const adCloseBtn = document.getElementById('adCloseBtn');
         if (adCloseBtn) {
-            const handleAdClose = (e) => {
+            adCloseBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.hideAd();
-            };
-
-            adCloseBtn.addEventListener('click', handleAdClose);
-            adCloseBtn.addEventListener('touchstart', handleAdClose);
+            });
         } else {
             console.error('광고 닫기 버튼을 찾을 수 없습니다.');
         }
