@@ -3,10 +3,10 @@
 
 const AD_CONFIG = {
     // 광고 제목
-    title: '진짜 메모앱',
+    title: '진짜 메모앱을 찾으시나요?',
     
     // 광고 설명
-    description: 'AI 기반의 스마트한 메모앱을 경험해보세요! 더 나은 아이디어 관리가 가능합니다.',
+    description: 'AI 기반의 스마트한 메모앱을 경험해보세요!',
     
     // 광고 링크 (실제 광고 URL로 변경하세요)
     link: 'https://otu.ai/home',
