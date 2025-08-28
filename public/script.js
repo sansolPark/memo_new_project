@@ -63,20 +63,6 @@ class MemoApp {
             console.error('광고 닫기 버튼을 찾을 수 없습니다.');
         }
 
-        // 설정 버튼 - 광고 다시 표시
-        const settingsBtn = document.getElementById('settingsBtn');
-        if (settingsBtn) {
-            settingsBtn.addEventListener('click', () => {
-                this.showAdAgain();
-            });
-            
-            // 모바일 터치 이벤트 지원
-            settingsBtn.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                this.showAdAgain();
-            });
-        }
-
         // 초기 글자 수 표시
         this.updateCharCount('');
     }
@@ -415,45 +401,24 @@ class MemoApp {
     }
 
     hideAd() {
+        console.log('hideAd 메서드 호출됨');
         const adSection = document.getElementById('adSection');
+        console.log('광고 섹션 요소:', adSection);
+        
         if (adSection) {
             // 로컬 스토리지에 광고 숨김 상태 저장
             localStorage.setItem('hiddenAds', 'true');
+            console.log('로컬 스토리지에 광고 숨김 상태 저장됨');
             
-            adSection.style.animation = 'slideInDown 0.6s ease-out reverse';
-            setTimeout(() => {
-                adSection.style.display = 'none';
-            }, 600);
-        }
-    }
-
-    // 광고를 다시 표시하는 메서드
-    showAdAgain() {
-        console.log('showAdAgain 메서드 호출됨');
-        
-        // 로컬 스토리지에서 광고 숨김 상태 제거
-        localStorage.removeItem('hiddenAds');
-        console.log('로컬 스토리지에서 광고 숨김 상태 제거됨');
-        
-        // 광고 설정 파일의 설정을 사용하여 광고 표시
-        if (window.AD_CONFIG && window.AD_CONFIG.enabled) {
-            console.log('광고 설정을 사용하여 광고 표시');
-            this.updateAd(
-                window.AD_CONFIG.title,
-                window.AD_CONFIG.description,
-                window.AD_CONFIG.link
-            );
+            // 즉시 숨기기
+            adSection.style.display = 'none';
+            console.log('광고가 숨겨짐');
+            
+            // 성공 알림 표시
+            this.showNotification('광고를 숨겼습니다.', 'success');
         } else {
-            console.log('광고 설정이 없어 기본 광고 표시');
-            // 기본 광고 내용으로 표시
-            this.updateAd(
-                '광고 제목',
-                '광고 설명을 여기에 입력하세요. 사용자에게 유용한 정보를 제공합니다.',
-                '#'
-            );
+            console.error('광고 섹션을 찾을 수 없습니다.');
         }
-        
-        this.showNotification('광고를 다시 표시합니다.', 'info');
     }
 
     // 광고 설정 예시 (실제 사용 시 이 부분을 수정하면 됩니다)
