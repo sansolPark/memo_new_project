@@ -3,6 +3,16 @@ class MemoApp {
         this.memos = [];
         this.currentEditId = null;
         this.supabase = null;
+        
+        // 금칙어 리스트 (개발자가 직접 수정/추가 가능)
+        this.bannedWords = [
+            "바보", "멍청이", "병신", "미친", "개새끼", "씨발", "좆", "존나", 
+            "개놈", "년", "놈", "죽어", "꺼져", "닥쳐", "시발", "개자식",
+            "새끼", "븅신", "또라이", "정신병", "장애", "개빡", "개쓰레기",
+            "쓰레기", "쪽팔려", "한심", "개못생김", "추남", "추녀", "돼지",
+            "뚱보", "개뚱", "개못남", "개못해", "개구림", "개더러워"
+        ];
+        
         this.init();
     }
 
@@ -69,6 +79,13 @@ class MemoApp {
             return;
         }
 
+        // 입력 내용 검증
+        const validation = this.validateInput(title, content);
+        if (!validation.isValid) {
+            this.showNotification(validation.message, 'error');
+            return;
+        }
+
         if (this.currentEditId !== null) {
             // 편집 모드
             await this.updateMemo(this.currentEditId, title, content);
@@ -121,6 +138,13 @@ class MemoApp {
     }
 
     async updateMemo(id, title, content) {
+        // 수정 시에도 입력 내용 검증
+        const validation = this.validateInput(title, content);
+        if (!validation.isValid) {
+            this.showNotification(validation.message, 'error');
+            return;
+        }
+
         try {
             const { data, error } = await this.supabase
                 .from('memos')
@@ -180,6 +204,42 @@ class MemoApp {
             // 입력 필드로 스크롤
             document.getElementById('memoTitle').scrollIntoView({ behavior: 'smooth' });
         }
+    }
+
+    // 금칙어 검사 메서드
+    containsBannedWords(text) {
+        const lowerText = text.toLowerCase();
+        return this.bannedWords.some(word => 
+            lowerText.includes(word.toLowerCase())
+        );
+    }
+
+    // 숫자 포함 검사 메서드
+    containsNumbers(text) {
+        return /\d/.test(text);
+    }
+
+    // 입력 내용 검증 메서드
+    validateInput(title, content) {
+        const fullText = `${title} ${content}`.trim();
+        
+        // 금칙어 검사
+        if (this.containsBannedWords(fullText)) {
+            return {
+                isValid: false,
+                message: '부적절한 언어가 포함되어 있습니다. 다른 표현을 사용해주세요.'
+            };
+        }
+        
+        // 숫자 포함 검사
+        if (this.containsNumbers(fullText)) {
+            return {
+                isValid: false,
+                message: '개인정보 보호를 위해 숫자가 포함된 내용은 저장할 수 없습니다.'
+            };
+        }
+        
+        return { isValid: true };
     }
 
     updateCharCount(content) {
