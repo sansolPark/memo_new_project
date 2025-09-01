@@ -43,6 +43,15 @@ self.addEventListener('activate', (event) => {
 
 // 네트워크 요청 가로채기
 self.addEventListener('fetch', (event) => {
+  const requestUrl = new URL(event.request.url);
+  const isSameOrigin = requestUrl.origin === self.location.origin;
+  const isGET = event.request.method === 'GET';
+
+  // 외부 도메인 요청(Supabase 등) 또는 GET 이외의 요청(POST/PUT/DELETE)은 가로채지 않음
+  if (!isSameOrigin || !isGET) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -50,25 +59,22 @@ self.addEventListener('fetch', (event) => {
         if (response) {
           return response;
         }
-        
+
         // 캐시에 없으면 네트워크에서 가져오기
-        return fetch(event.request).then(
-          (response) => {
-            // 유효한 응답이 아니면 그대로 반환
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-
-            // 응답을 복제하여 캐시에 저장
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-
+        return fetch(event.request).then((response) => {
+          // 유효한 응답이 아니면 그대로 반환
+          if (!response || response.status !== 200 || response.type !== 'basic') {
             return response;
           }
-        );
+
+          // 응답을 복제하여 캐시에 저장 (GET만 처리)
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+
+          return response;
+        });
       })
       .catch(() => {
         // 네트워크 오류 시 오프라인 페이지 반환
