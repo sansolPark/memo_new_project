@@ -47,6 +47,13 @@ class MemoApp {
             }
         });
 
+        // Enter 키로 메모 내용에서도 추가 가능
+        document.getElementById('memoContent').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                this.addMemo();
+            }
+        });
+
         // 글자 수 카운트
         document.getElementById('memoContent').addEventListener('input', (e) => {
             this.updateCharCount(e.target.value);
@@ -318,17 +325,50 @@ class MemoApp {
         const memoList = document.getElementById('memoList');
         const emptyState = document.getElementById('emptyState');
         const memoCount = document.getElementById('memoCount');
+        const addMemoBtn = document.getElementById('addMemoBtn');
 
         if (this.memos.length === 0) {
             memoList.style.display = 'none';
             emptyState.style.display = 'block';
-            memoCount.textContent = '0개의 메모';
+            memoCount.textContent = '0/7개의 메모';
         } else {
             memoList.style.display = 'grid';
             emptyState.style.display = 'none';
-            memoCount.textContent = `${this.memos.length}개의 메모`;
+            memoCount.textContent = `${this.memos.length}/7개의 메모`;
             
             memoList.innerHTML = this.memos.map(memo => this.renderMemo(memo)).join('');
+        }
+
+        // 메모 개수에 따른 추가 버튼 상태 관리
+        if (this.memos.length >= 7 && this.currentEditId === null) {
+            // 편집 모드가 아닐 때만 버튼 비활성화
+            addMemoBtn.disabled = true;
+            addMemoBtn.style.opacity = '0.5';
+            addMemoBtn.style.cursor = 'not-allowed';
+            addMemoBtn.title = '메모는 최대 7개까지만 작성할 수 있습니다. 기존 메모를 삭제해주세요.';
+            addMemoBtn.classList.add('memo-limit-reached');
+            
+            // 메모 카운터에 경고 스타일 적용
+            memoCount.classList.add('memo-count-limit');
+        } else if (this.memos.length === 6 && this.currentEditId === null) {
+            // 6개일 때 경고 스타일 적용
+            addMemoBtn.disabled = false;
+            addMemoBtn.style.opacity = '1';
+            addMemoBtn.style.cursor = 'pointer';
+            addMemoBtn.title = '마지막 메모입니다. 새로운 메모를 추가하려면 기존 메모를 삭제해야 합니다.';
+            addMemoBtn.classList.remove('memo-limit-reached');
+            
+            // 메모 카운터에 경고 스타일 적용
+            memoCount.classList.add('memo-count-limit', 'warning');
+        } else {
+            addMemoBtn.disabled = false;
+            addMemoBtn.style.opacity = '1';
+            addMemoBtn.style.cursor = 'pointer';
+            addMemoBtn.title = '';
+            addMemoBtn.classList.remove('memo-limit-reached');
+            
+            // 메모 카운터에서 경고 스타일 제거
+            memoCount.classList.remove('memo-count-limit', 'warning');
         }
     }
 
