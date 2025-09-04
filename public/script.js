@@ -92,7 +92,12 @@ class MemoApp {
             this.currentEditId = null;
             document.getElementById('addMemoBtn').innerHTML = '<i class="fas fa-plus"></i> 메모 추가';
         } else {
-            // 새 메모 추가
+            // 새 메모 추가 - 개수 제한 확인
+            if (this.memos.length >= 7) {
+                this.showNotification('메모는 최대 7개까지만 작성할 수 있습니다. 새로운 메모를 작성하려면 기존 메모를 삭제해주세요.', 'warning');
+                return;
+            }
+
             const memo = {
                 title: title || '제목 없음',
                 content: content || '내용 없음',

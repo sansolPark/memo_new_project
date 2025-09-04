@@ -640,3 +640,45 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
+
+/* 메모 개수 제한 관련 스타일 */
+.memo-count-limit {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.memo-count-limit.warning {
+    color: #f39c12;
+}
+
+#addMemoBtn:disabled {
+    background: #95a5a6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+#addMemoBtn:disabled:hover {
+    background: #95a5a6 !important;
+    transform: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* 메모 개수가 최대에 도달했을 때의 시각적 피드백 */
+.memo-limit-reached {
+    position: relative;
+}
+
+.memo-limit-reached::after {
+    content: "최대 7개";
+    position: absolute;
+    top: -25px;
+    right: 0;
+    background: #e74c3c;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.9;
+}
