@@ -54,9 +54,15 @@ class MemoApp {
             }
         });
 
-        // 글자 수 카운트
+        // 글자 수 카운트 및 실시간 입력 검증
         document.getElementById('memoContent').addEventListener('input', (e) => {
             this.updateCharCount(e.target.value);
+            this.validateAndCleanInput(e.target, 'memoContent');
+        });
+
+        // 제목 입력 실시간 검증
+        document.getElementById('memoTitle').addEventListener('input', (e) => {
+            this.validateAndCleanInput(e.target, 'memoTitle');
         });
 
         // 광고 닫기 버튼
@@ -229,6 +235,118 @@ class MemoApp {
     // 숫자 포함 검사 메서드
     containsNumbers(text) {
         return /\d/.test(text);
+    }
+
+    // 실시간 입력 검증 및 정리 메서드
+    validateAndCleanInput(inputElement, fieldType) {
+        let text = inputElement.value;
+        const originalText = text;
+        let hasChanges = false;
+        
+        // 금칙어 제거
+        this.bannedWords.forEach(word => {
+            const regex = new RegExp(word, 'gi');
+            if (regex.test(text)) {
+                text = text.replace(regex, '***');
+                hasChanges = true;
+            }
+        });
+        
+        // 숫자 제거
+        if (/\d/.test(text)) {
+            text = text.replace(/\d/g, '');
+            hasChanges = true;
+        }
+        
+        // 변경사항이 있으면 입력 필드 업데이트
+        if (hasChanges) {
+            const cursorPosition = inputElement.selectionStart;
+            inputElement.value = text;
+            
+            // 커서 위치 조정
+            const newCursorPosition = Math.min(cursorPosition, text.length);
+            inputElement.setSelectionRange(newCursorPosition, newCursorPosition);
+            
+            // 경고 메시지 표시
+            this.showInputError(fieldType, '부적절한 내용이 자동으로 제거되었습니다.');
+            
+            // 2초 후 경고 메시지 제거
+            setTimeout(() => {
+                this.clearInputError(fieldType);
+            }, 2000);
+        } else {
+            // 검증 통과 시 에러 메시지 제거
+            this.clearInputError(fieldType);
+        }
+    }
+
+    // 실시간 입력 검증 메서드 (기존 유지)
+    validateInputRealTime(text, fieldType) {
+        const fieldName = fieldType === 'memoTitle' ? '제목' : '내용';
+        
+        // 금칙어 검사
+        if (this.containsBannedWords(text)) {
+            this.showInputError(fieldType, '부적절한 언어가 포함되어 있습니다. 다른 표현을 사용해주세요.');
+            return false;
+        }
+        
+        // 숫자 포함 검사
+        if (this.containsNumbers(text)) {
+            this.showInputError(fieldType, '개인정보 보호를 위해 숫자가 포함된 내용은 저장할 수 없습니다.');
+            return false;
+        }
+        
+        // 검증 통과 시 에러 메시지 제거
+        this.clearInputError(fieldType);
+        return true;
+    }
+
+    // 입력 필드 에러 표시
+    showInputError(fieldType, message) {
+        const field = document.getElementById(fieldType);
+        const errorElement = document.getElementById(`${fieldType}Error`);
+        
+        // 기존 에러 메시지 제거
+        if (errorElement) {
+            errorElement.remove();
+        }
+        
+        // 에러 메시지 생성
+        const errorDiv = document.createElement('div');
+        errorDiv.id = `${fieldType}Error`;
+        errorDiv.className = 'input-error';
+        errorDiv.textContent = message;
+        errorDiv.style.cssText = `
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 4px;
+            font-weight: 500;
+        `;
+        
+        // 필드에 에러 스타일 적용
+        field.style.borderColor = '#e74c3c';
+        field.style.boxShadow = '0 0 0 2px rgba(231, 76, 60, 0.2)';
+        
+        // 에러 메시지 삽입
+        field.parentNode.insertBefore(errorDiv, field.nextSibling);
+        
+        // 입력 내용을 빨간색으로 표시
+        field.style.color = '#e74c3c';
+    }
+
+    // 입력 필드 에러 제거
+    clearInputError(fieldType) {
+        const field = document.getElementById(fieldType);
+        const errorElement = document.getElementById(`${fieldType}Error`);
+        
+        if (errorElement) {
+            errorElement.remove();
+        }
+        
+        // 필드 스타일 복원
+        field.style.borderColor = '';
+        field.style.boxShadow = '';
+        field.style.color = '';
     }
 
     // 입력 내용 검증 메서드
