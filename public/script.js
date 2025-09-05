@@ -78,6 +78,28 @@ class MemoApp {
 
         // 초기 글자 수 표시
         this.updateCharCount('');
+
+        // 메모 리스트 클릭 이벤트 위임 (inline onclick 제거)
+        const memoListEl = document.getElementById('memoList');
+        if (memoListEl) {
+            memoListEl.addEventListener('click', (event) => {
+                const targetButton = event.target.closest('button');
+                if (!targetButton) return;
+
+                const memoItem = targetButton.closest('.memo-item');
+                if (!memoItem) return;
+
+                const idAttr = memoItem.getAttribute('data-id');
+                const memoId = Number(idAttr);
+                if (Number.isNaN(memoId)) return;
+
+                if (targetButton.classList.contains('edit-btn')) {
+                    this.editMemo(memoId);
+                } else if (targetButton.classList.contains('delete-btn')) {
+                    this.deleteMemo(memoId);
+                }
+            });
+        }
     }
 
     async addMemo() {
@@ -316,22 +338,14 @@ class MemoApp {
         errorDiv.id = `${fieldType}Error`;
         errorDiv.className = 'input-error';
         errorDiv.textContent = message;
-        errorDiv.style.cssText = `
-            color: #e74c3c;
-            font-size: 12px;
-            margin-top: 4px;
-            font-weight: 500;
-        `;
         
         // 필드에 에러 스타일 적용
-        field.style.borderColor = '#e74c3c';
-        field.style.boxShadow = '0 0 0 2px rgba(231, 76, 60, 0.2)';
+        field.classList.add('input-has-error');
         
         // 에러 메시지 삽입
         field.parentNode.insertBefore(errorDiv, field.nextSibling);
         
-        // 입력 내용을 빨간색으로 표시
-        field.style.color = '#e74c3c';
+        // 입력 내용을 빨간색으로 표시 (클래스로 처리)
     }
 
     // 입력 필드 에러 제거
@@ -344,9 +358,7 @@ class MemoApp {
         }
         
         // 필드 스타일 복원
-        field.style.borderColor = '';
-        field.style.boxShadow = '';
-        field.style.color = '';
+        field.classList.remove('input-has-error');
     }
 
     // 입력 내용 검증 메서드
@@ -377,13 +389,12 @@ class MemoApp {
         const count = content.length;
         charCount.textContent = `${count}/500`;
         
-        // 글자 수에 따른 색상 변경
+        // 글자 수에 따른 색상 변경 (클래스로 처리)
+        charCount.classList.remove('char-count-warning', 'char-count-danger');
         if (count > 450) {
-            charCount.style.color = '#e74c3c';
+            charCount.classList.add('char-count-danger');
         } else if (count > 400) {
-            charCount.style.color = '#f39c12';
-        } else {
-            charCount.style.color = '#666';
+            charCount.classList.add('char-count-warning');
         }
     }
 
@@ -422,10 +433,10 @@ class MemoApp {
                 </div>
                 <div class="memo-content">${this.escapeHtml(memo.content)}</div>
                 <div class="memo-actions">
-                    <button class="action-btn edit-btn" onclick="memoApp.editMemo(${memo.id})">
+                    <button class="action-btn edit-btn">
                         <i class="fas fa-edit"></i> 수정
                     </button>
-                    <button class="action-btn delete-btn" onclick="memoApp.deleteMemo(${memo.id})">
+                    <button class="action-btn delete-btn">
                         <i class="fas fa-trash"></i> 삭제
                     </button>
                 </div>
@@ -446,12 +457,14 @@ class MemoApp {
         const addMemoBtn = document.getElementById('addMemoBtn');
 
         if (this.memos.length === 0) {
-            memoList.style.display = 'none';
-            emptyState.style.display = 'block';
+            memoList.classList.add('is-hidden');
+            emptyState.classList.add('is-visible');
+            emptyState.classList.remove('is-hidden');
             memoCount.textContent = '0/7개의 메모';
         } else {
-            memoList.style.display = 'grid';
-            emptyState.style.display = 'none';
+            memoList.classList.remove('is-hidden');
+            emptyState.classList.remove('is-visible');
+            emptyState.classList.add('is-hidden');
             memoCount.textContent = `${this.memos.length}/7개의 메모`;
             
             memoList.innerHTML = this.memos.map(memo => this.renderMemo(memo)).join('');
@@ -461,8 +474,6 @@ class MemoApp {
         if (this.memos.length >= 7 && this.currentEditId === null) {
             // 편집 모드가 아닐 때만 버튼 비활성화
             addMemoBtn.disabled = true;
-            addMemoBtn.style.opacity = '0.5';
-            addMemoBtn.style.cursor = 'not-allowed';
             addMemoBtn.title = '메모는 최대 7개까지만 작성할 수 있습니다. 기존 메모를 삭제해주세요.';
             addMemoBtn.classList.add('memo-limit-reached');
             
@@ -471,8 +482,6 @@ class MemoApp {
         } else if (this.memos.length === 6 && this.currentEditId === null) {
             // 6개일 때 경고 스타일 적용
             addMemoBtn.disabled = false;
-            addMemoBtn.style.opacity = '1';
-            addMemoBtn.style.cursor = 'pointer';
             addMemoBtn.title = '마지막 메모입니다. 새로운 메모를 추가하려면 기존 메모를 삭제해야 합니다.';
             addMemoBtn.classList.remove('memo-limit-reached');
             
@@ -480,8 +489,6 @@ class MemoApp {
             memoCount.classList.add('memo-count-limit', 'warning');
         } else {
             addMemoBtn.disabled = false;
-            addMemoBtn.style.opacity = '1';
-            addMemoBtn.style.cursor = 'pointer';
             addMemoBtn.title = '';
             addMemoBtn.classList.remove('memo-limit-reached');
             
@@ -515,54 +522,19 @@ class MemoApp {
         }
 
         const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
+        notification.className = `notification notification-${type} animate-slide-in-right`;
         notification.innerHTML = `
             <i class="fas fa-${this.getNotificationIcon(type)}"></i>
             <span>${message}</span>
         `;
-
-        // 알림 스타일 추가
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${this.getNotificationColor(type)};
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 500;
-            animation: slideInRight 0.3s ease-out;
-        `;
-
-        // 애니메이션 CSS 추가
-        if (!document.querySelector('#notification-styles')) {
-            const style = document.createElement('style');
-            style.id = 'notification-styles';
-            style.textContent = `
-                @keyframes slideInRight {
-                    from {
-                        transform: translateX(100%);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateX(0);
-                        opacity: 1;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-        }
+        // 스타일과 애니메이션은 CSS 클래스로 처리
 
         document.body.appendChild(notification);
 
         // 3초 후 자동 제거
         setTimeout(() => {
-            notification.style.animation = 'slideInRight 0.3s ease-out reverse';
+            notification.classList.remove('animate-slide-in-right');
+            notification.classList.add('animate-slide-out-right');
             setTimeout(() => {
                 if (notification.parentNode) {
                     notification.remove();
@@ -608,8 +580,8 @@ class MemoApp {
     showAd() {
         const adSection = document.getElementById('adSection');
         if (adSection) {
-            adSection.style.display = 'block';
-            adSection.style.animation = 'slideInDown 0.6s ease-out';
+            adSection.classList.add('is-visible', 'animate-slide-in-down');
+            adSection.classList.remove('is-hidden');
         }
     }
 
@@ -624,7 +596,8 @@ class MemoApp {
             console.log('로컬 스토리지에 광고 숨김 상태 저장됨');
             
             // 즉시 숨기기
-            adSection.style.display = 'none';
+            adSection.classList.remove('is-visible');
+            adSection.classList.add('is-hidden');
             console.log('광고가 숨겨짐');
             
             // 성공 알림 표시

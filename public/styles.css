@@ -682,3 +682,92 @@ body {
     font-weight: 500;
     opacity: 0.9;
 }
+
+/* 공통 유틸리티 */
+.is-hidden {
+    display: none !important;
+}
+
+.is-visible {
+    display: block !important;
+}
+
+.animate-slide-in-down {
+    animation: slideInDown 0.6s ease-out;
+}
+
+/* 알림 배너 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.notification-success { background: #27ae60; }
+.notification-warning { background: #f39c12; }
+.notification-error { background: #e74c3c; }
+.notification-info { background: #3498db; }
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+}
+
+.animate-slide-out-right {
+    animation: slideOutRight 0.3s ease-out;
+}
+
+/* 입력 에러 표시 */
+.input-error {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.input-has-error {
+    border-color: #e74c3c !important;
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2) !important;
+    color: #e74c3c !important;
+}
+
+/* 글자 수 경고 색상 */
+.char-count-warning { color: #f39c12 !important; }
+.char-count-danger { color: #e74c3c !important; }
+
+/* 광고 영역 표시 제어 */
+.ad-section.is-visible { display: block !important; }
+
+/* PWA 버튼 표시 전환 및 초기 상태 애니메이션 상태 */
+.pwa-install-btn {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.pwa-install-btn.is-visible {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 연결 상태 표시 토글 */
+.connection-status { display: none; }
+.connection-status.is-visible { display: block; }

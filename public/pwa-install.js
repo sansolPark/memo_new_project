@@ -57,35 +57,10 @@ function createInstallButton() {
     <i class="fas fa-download"></i>
     앱 설치
   `;
-  installButton.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 12px 20px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-    z-index: 1000;
-    display: none;
-    transition: all 0.3s ease;
-    font-family: 'Noto Sans KR', sans-serif;
-  `;
+  // 스타일은 CSS 클래스에서 적용
   
   // 호버 효과
-  installButton.addEventListener('mouseenter', () => {
-    installButton.style.transform = 'translateY(-2px)';
-    installButton.style.boxShadow = '0 6px 16px rgba(76, 175, 80, 0.4)';
-  });
-  
-  installButton.addEventListener('mouseleave', () => {
-    installButton.style.transform = 'translateY(0)';
-    installButton.style.boxShadow = '0 4px 12px rgba(76, 175, 80, 0.3)';
-  });
+  // 호버 효과는 CSS :hover로 처리
   
   // 클릭 이벤트
   installButton.addEventListener('click', installPWA);
@@ -97,23 +72,14 @@ function createInstallButton() {
 // 설치 버튼 표시
 function showInstallButton() {
   if (installButton) {
-    installButton.style.display = 'block';
-    // 애니메이션 효과
-    setTimeout(() => {
-      installButton.style.opacity = '1';
-      installButton.style.transform = 'translateY(0)';
-    }, 100);
+    installButton.classList.add('is-visible');
   }
 }
 
 // 설치 버튼 숨기기
 function hideInstallButton() {
   if (installButton) {
-    installButton.style.opacity = '0';
-    installButton.style.transform = 'translateY(20px)';
-    setTimeout(() => {
-      installButton.style.display = 'none';
-    }, 300);
+    installButton.classList.remove('is-visible');
   }
 }
 
@@ -169,18 +135,7 @@ function createConnectionStatus() {
   const status = document.createElement('div');
   status.id = 'connection-status';
   status.className = 'connection-status';
-  status.style.cssText = `
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    z-index: 1001;
-    display: none;
-    font-family: 'Noto Sans KR', sans-serif;
-  `;
+  // 스타일은 CSS 클래스로 처리
   
   document.body.appendChild(status);
   
