@@ -398,38 +398,12 @@ class MemoApp {
         }
     }
 
-    formatDate(dateString) {
-        const date = new Date(dateString);
-        const now = new Date();
-        const diffTime = Math.abs(now - date);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
-        if (diffDays === 1) {
-            return '오늘';
-        } else if (diffDays === 2) {
-            return '어제';
-        } else if (diffDays <= 7) {
-            return `${diffDays - 1}일 전`;
-        } else {
-            return date.toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
-    }
 
     renderMemo(memo) {
-        const isEdited = memo.updated_at !== memo.created_at;
-        const dateText = isEdited ? 
-            `수정됨: ${this.formatDate(memo.updated_at)}` : 
-            this.formatDate(memo.created_at);
-
         return `
             <div class="memo-item" data-id="${memo.id}">
                 <div class="memo-header">
                     <h3 class="memo-title">${this.escapeHtml(memo.title)}</h3>
-                    <span class="memo-date">${dateText}</span>
                 </div>
                 <div class="memo-content">${this.escapeHtml(memo.content)}</div>
                 <div class="memo-actions">
