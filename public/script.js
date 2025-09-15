@@ -97,6 +97,8 @@ class MemoApp {
                     this.editMemo(memoId);
                 } else if (targetButton.classList.contains('delete-btn')) {
                     this.deleteMemo(memoId);
+                } else if (targetButton.classList.contains('copy-btn')) {
+                    this.copyMemoContent(memoId);
                 }
             });
         }
@@ -243,6 +245,38 @@ class MemoApp {
             
             // 입력 필드로 스크롤
             document.getElementById('memoTitle').scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    async copyMemoContent(id) {
+        const memo = this.memos.find(memo => memo.id === id);
+        if (!memo) {
+            this.showNotification('메모를 찾을 수 없습니다.', 'error');
+            return;
+        }
+
+        try {
+            // 클립보드 API를 사용하여 텍스트 복사
+            await navigator.clipboard.writeText(memo.content);
+            this.showNotification('메모 내용이 클립보드에 복사되었습니다.', 'success');
+        } catch (error) {
+            // 클립보드 API가 지원되지 않는 경우 대체 방법 사용
+            try {
+                const textArea = document.createElement('textarea');
+                textArea.value = memo.content;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                this.showNotification('메모 내용이 클립보드에 복사되었습니다.', 'success');
+            } catch (fallbackError) {
+                console.error('복사 실패:', fallbackError);
+                this.showNotification('복사에 실패했습니다. 다시 시도해주세요.', 'error');
+            }
         }
     }
 
@@ -404,6 +438,9 @@ class MemoApp {
             <div class="memo-item" data-id="${memo.id}">
                 <div class="memo-header">
                     <h3 class="memo-title">${this.escapeHtml(memo.title)}</h3>
+                    <button class="action-btn copy-btn" title="메모 내용 복사">
+                        <i class="fas fa-copy"></i>
+                    </button>
                 </div>
                 <div class="memo-content">${this.escapeHtml(memo.content)}</div>
                 <div class="memo-actions">

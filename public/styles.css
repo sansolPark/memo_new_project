@@ -468,6 +468,18 @@ body {
     background: rgba(231, 76, 60, 0.1);
 }
 
+.copy-btn {
+    color: #667eea;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.copy-btn:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: scale(1.05);
+}
+
 /* 빈 상태 스타일 */
 .empty-state {
     text-align: center;
