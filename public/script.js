@@ -439,7 +439,7 @@ class MemoApp {
                 <div class="memo-header">
                     <h3 class="memo-title">${this.escapeHtml(memo.title)}</h3>
                     <button class="action-btn copy-btn" title="메모 내용 복사">
-                        <i class="fas fa-copy"></i>
+                        <i class="fas fa-copy"></i> 복사
                     </button>
                 </div>
                 <div class="memo-content">${this.escapeHtml(memo.content)}</div>
