@@ -81,9 +81,7 @@ class MemoApp {
                 const memoId = Number(idAttr);
                 if (Number.isNaN(memoId)) return;
 
-                if (targetButton.classList.contains('edit-btn')) {
-                    this.editMemo(memoId);
-                } else if (targetButton.classList.contains('delete-btn')) {
+                if (targetButton.classList.contains('delete-btn')) {
                     this.deleteMemo(memoId);
                 } else if (targetButton.classList.contains('copy-btn')) {
                     this.copyMemoContent(memoId);
@@ -425,9 +423,6 @@ class MemoApp {
                 </div>
                 <div class="memo-content">${this.escapeHtml(memo.content)}</div>
                 <div class="memo-actions">
-                    <button class="action-btn edit-btn">
-                        <i class="fas fa-edit"></i> 수정
-                    </button>
                     <button class="action-btn delete-btn">
                         <i class="fas fa-trash"></i> 삭제
                     </button>
