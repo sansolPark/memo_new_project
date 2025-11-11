@@ -282,23 +282,6 @@ body {
     gap: 20px;
 }
 
-#memoTitle {
-    padding: 15px 20px;
-    border: 2px solid #e1e5e9;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-family: inherit;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.8);
-}
-
-#memoTitle:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    background: white;
-}
-
 #memoContent {
     padding: 20px;
     border: 2px solid #e1e5e9;
@@ -411,20 +394,10 @@ body {
 
 .memo-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: flex-start;
     margin-bottom: 15px;
 }
-
-.memo-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #333;
-    margin: 0;
-    flex: 1;
-    margin-right: 15px;
-}
-
 
 .memo-content {
     color: #555;

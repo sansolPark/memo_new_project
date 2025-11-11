@@ -40,13 +40,6 @@ class MemoApp {
             this.addMemo();
         });
 
-        // Enter 키로 메모 추가
-        document.getElementById('memoTitle').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                this.addMemo();
-            }
-        });
-
         // Enter 키로 메모 내용에서도 추가 가능
         document.getElementById('memoContent').addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && e.ctrlKey) {
@@ -58,11 +51,6 @@ class MemoApp {
         document.getElementById('memoContent').addEventListener('input', (e) => {
             this.updateCharCount(e.target.value);
             this.validateAndCleanInput(e.target, 'memoContent');
-        });
-
-        // 제목 입력 실시간 검증
-        document.getElementById('memoTitle').addEventListener('input', (e) => {
-            this.validateAndCleanInput(e.target, 'memoTitle');
         });
 
         // 광고 닫기 버튼
@@ -105,19 +93,17 @@ class MemoApp {
     }
 
     async addMemo() {
-        const titleInput = document.getElementById('memoTitle');
         const contentInput = document.getElementById('memoContent');
         
-        const title = titleInput.value.trim();
         const content = contentInput.value.trim();
 
-        if (!title && !content) {
-            this.showNotification('제목이나 내용을 입력해주세요.', 'warning');
+        if (!content) {
+            this.showNotification('내용을 입력해주세요.', 'warning');
             return;
         }
 
         // 입력 내용 검증
-        const validation = this.validateInput(title, content);
+        const validation = this.validateInput('', content);
         if (!validation.isValid) {
             this.showNotification(validation.message, 'error');
             return;
@@ -125,7 +111,7 @@ class MemoApp {
 
         if (this.currentEditId !== null) {
             // 편집 모드
-            await this.updateMemo(this.currentEditId, title, content);
+            await this.updateMemo(this.currentEditId, content);
             this.currentEditId = null;
             document.getElementById('addMemoBtn').innerHTML = '<i class="fas fa-plus"></i> 메모 추가';
         } else {
@@ -136,8 +122,7 @@ class MemoApp {
             }
 
             const memo = {
-                title: title || '제목 없음',
-                content: content || '내용 없음',
+                content: content,
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
             };
@@ -171,17 +156,16 @@ class MemoApp {
         }
 
         // 입력 필드 초기화
-        titleInput.value = '';
         contentInput.value = '';
         this.updateCharCount('');
-        titleInput.focus();
+        contentInput.focus();
         
         this.updateUI();
     }
 
-    async updateMemo(id, title, content) {
+    async updateMemo(id, content) {
         // 수정 시에도 입력 내용 검증
-        const validation = this.validateInput(title, content);
+        const validation = this.validateInput('', content);
         if (!validation.isValid) {
             this.showNotification(validation.message, 'error');
             return;
@@ -191,8 +175,7 @@ class MemoApp {
             const { data, error } = await this.supabase
                 .from('memos')
                 .update({
-                    title: title || '제목 없음',
-                    content: content || '내용 없음',
+                    content: content,
                     updated_at: new Date().toISOString()
                 })
                 .eq('id', id)
@@ -237,14 +220,13 @@ class MemoApp {
     editMemo(id) {
         const memo = this.memos.find(memo => memo.id === id);
         if (memo) {
-            document.getElementById('memoTitle').value = memo.title;
             document.getElementById('memoContent').value = memo.content;
             document.getElementById('addMemoBtn').innerHTML = '<i class="fas fa-save"></i> 메모 수정';
             this.currentEditId = id;
             this.updateCharCount(memo.content);
             
             // 입력 필드로 스크롤
-            document.getElementById('memoTitle').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('memoContent').scrollIntoView({ behavior: 'smooth' });
         }
     }
 
@@ -437,7 +419,6 @@ class MemoApp {
         return `
             <div class="memo-item" data-id="${memo.id}">
                 <div class="memo-header">
-                    <h3 class="memo-title">${this.escapeHtml(memo.title)}</h3>
                     <button class="action-btn copy-btn" title="메모 내용 복사">
                         <i class="fas fa-copy"></i> 복사
                     </button>
