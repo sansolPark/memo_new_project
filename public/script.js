@@ -40,11 +40,13 @@ class MemoApp {
             this.addMemo();
         });
 
-        // Enter 키로 메모 내용에서도 추가 가능
-        document.getElementById('memoContent').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && e.ctrlKey) {
+        // Enter 키로 메모 저장, Shift+Enter로 줄바꿈
+        document.getElementById('memoContent').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
                 this.addMemo();
             }
+            // Shift+Enter는 기본 동작(줄바꿈)을 허용
         });
 
         // 글자 수 카운트 및 실시간 입력 검증
