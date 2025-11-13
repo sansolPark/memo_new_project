@@ -22,7 +22,7 @@ class MemoApp {
             this.supabase = window.supabaseClient;
         } else {
             console.error('Supabase 클라이언트가 초기화되지 않았습니다.');
-            this.showNotification('Supabase 연결에 실패했습니다. 페이지를 새로고침해주세요.', 'error');
+            this.showNotification(window.i18n.t('notifySupabaseError'), 'error');
             return;
         }
         
@@ -98,7 +98,7 @@ class MemoApp {
         const content = contentInput.value.trim();
 
         if (!content) {
-            this.showNotification('내용을 입력해주세요.', 'warning');
+            this.showNotification(window.i18n.t('notifyContentRequired'), 'warning');
             return;
         }
 
@@ -113,11 +113,11 @@ class MemoApp {
             // 편집 모드
             await this.updateMemo(this.currentEditId, content);
             this.currentEditId = null;
-            document.getElementById('addMemoBtn').innerHTML = '<i class="fas fa-plus"></i> 메모 추가';
+            document.getElementById('addMemoBtn').innerHTML = `<i class="fas fa-plus"></i> ${window.i18n.t('addMemo')}`;
         } else {
             // 새 메모 추가 - 개수 제한 확인
             if (this.memos.length >= 7) {
-                this.showNotification('메모는 최대 7개까지만 작성할 수 있습니다. 새로운 메모를 작성하려면 기존 메모를 삭제해주세요.', 'warning');
+                this.showNotification(window.i18n.t('notifyMemoLimit'), 'warning');
                 return;
             }
 
@@ -146,11 +146,11 @@ class MemoApp {
                 // 새로 생성된 메모를 배열에 추가
                 if (data && data.length > 0) {
                     this.memos.unshift(data[0]);
-                    this.showNotification('메모가 추가되었습니다.', 'success');
+                    this.showNotification(window.i18n.t('notifyMemoAdded'), 'success');
                 }
             } catch (error) {
                 console.error('메모 추가 오류:', error);
-                this.showNotification(`메모 추가 중 오류가 발생했습니다: ${error.message}`, 'error');
+                this.showNotification(window.i18n.t('notifyAddError', { error: error.message }), 'error');
                 return;
             }
         }
@@ -189,15 +189,15 @@ class MemoApp {
                 this.memos[memoIndex] = data[0];
             }
 
-            this.showNotification('메모가 수정되었습니다.', 'success');
+            this.showNotification(window.i18n.t('notifyMemoUpdated'), 'success');
         } catch (error) {
             console.error('메모 수정 오류:', error);
-            this.showNotification('메모 수정 중 오류가 발생했습니다.', 'error');
+            this.showNotification(window.i18n.t('notifyUpdateError'), 'error');
         }
     }
 
     async deleteMemo(id) {
-        if (confirm('정말로 이 메모를 삭제하시겠습니까?')) {
+        if (confirm(window.i18n.t('confirmDelete'))) {
             try {
                 const { error } = await this.supabase
                     .from('memos')
@@ -209,10 +209,10 @@ class MemoApp {
                 // 로컬 배열에서 제거
                 this.memos = this.memos.filter(memo => memo.id !== id);
                 this.updateUI();
-                this.showNotification('메모가 삭제되었습니다.', 'info');
+                this.showNotification(window.i18n.t('notifyMemoDeleted'), 'info');
             } catch (error) {
                 console.error('메모 삭제 오류:', error);
-                this.showNotification('메모 삭제 중 오류가 발생했습니다.', 'error');
+                this.showNotification(window.i18n.t('notifyDeleteError'), 'error');
             }
         }
     }
@@ -221,7 +221,7 @@ class MemoApp {
         const memo = this.memos.find(memo => memo.id === id);
         if (memo) {
             document.getElementById('memoContent').value = memo.content;
-            document.getElementById('addMemoBtn').innerHTML = '<i class="fas fa-save"></i> 메모 수정';
+            document.getElementById('addMemoBtn').innerHTML = `<i class="fas fa-save"></i> ${window.i18n.t('updateMemo')}`;
             this.currentEditId = id;
             this.updateCharCount(memo.content);
             
@@ -233,14 +233,14 @@ class MemoApp {
     async copyMemoContent(id) {
         const memo = this.memos.find(memo => memo.id === id);
         if (!memo) {
-            this.showNotification('메모를 찾을 수 없습니다.', 'error');
+            this.showNotification(window.i18n.t('notifyMemoNotFound'), 'error');
             return;
         }
 
         try {
             // 클립보드 API를 사용하여 텍스트 복사
             await navigator.clipboard.writeText(memo.content);
-            this.showNotification('메모 내용이 클립보드에 복사되었습니다.', 'success');
+            this.showNotification(window.i18n.t('notifyMemoCopied'), 'success');
         } catch (error) {
             // 클립보드 API가 지원되지 않는 경우 대체 방법 사용
             try {
@@ -254,10 +254,10 @@ class MemoApp {
                 textArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
-                this.showNotification('메모 내용이 클립보드에 복사되었습니다.', 'success');
+                this.showNotification(window.i18n.t('notifyMemoCopied'), 'success');
             } catch (fallbackError) {
                 console.error('복사 실패:', fallbackError);
-                this.showNotification('복사에 실패했습니다. 다시 시도해주세요.', 'error');
+                this.showNotification(window.i18n.t('notifyCopyFailed'), 'error');
             }
         }
     }
@@ -306,7 +306,7 @@ class MemoApp {
             inputElement.setSelectionRange(newCursorPosition, newCursorPosition);
             
             // 경고 메시지 표시
-            this.showInputError(fieldType, '부적절한 내용이 자동으로 제거되었습니다.');
+            this.showInputError(fieldType, window.i18n.t('notifyContentRemoved'));
             
             // 2초 후 경고 메시지 제거
             setTimeout(() => {
@@ -385,7 +385,7 @@ class MemoApp {
         if (this.containsBannedWords(fullText)) {
             return {
                 isValid: false,
-                message: '부적절한 언어가 포함되어 있습니다. 다른 표현을 사용해주세요.'
+                message: window.i18n.t('notifyBannedWords')
             };
         }
         
@@ -393,7 +393,7 @@ class MemoApp {
         if (this.containsNumbers(fullText)) {
             return {
                 isValid: false,
-                message: '개인정보 보호를 위해 숫자가 포함된 내용은 저장할 수 없습니다.'
+                message: window.i18n.t('notifyNumbersNotAllowed')
             };
         }
         
@@ -403,7 +403,7 @@ class MemoApp {
     updateCharCount(content) {
         const charCount = document.getElementById('charCount');
         const count = content.length;
-        charCount.textContent = `${count}/500`;
+        charCount.textContent = window.i18n.t('charCount', { count });
         
         // 글자 수에 따른 색상 변경 (클래스로 처리)
         charCount.classList.remove('char-count-warning', 'char-count-danger');
@@ -419,14 +419,14 @@ class MemoApp {
         return `
             <div class="memo-item" data-id="${memo.id}">
                 <div class="memo-header">
-                    <button class="action-btn copy-btn" title="메모 내용 복사">
-                        <i class="fas fa-copy"></i> 복사
+                    <button class="action-btn copy-btn" title="${window.i18n.t('tooltipCopy')}">
+                        <i class="fas fa-copy"></i> ${window.i18n.t('copy')}
                     </button>
                 </div>
                 <div class="memo-content">${this.escapeHtml(memo.content)}</div>
                 <div class="memo-actions">
                     <button class="action-btn delete-btn">
-                        <i class="fas fa-trash"></i> 삭제
+                        <i class="fas fa-trash"></i> ${window.i18n.t('delete')}
                     </button>
                 </div>
             </div>
@@ -449,12 +449,12 @@ class MemoApp {
             memoList.classList.add('is-hidden');
             emptyState.classList.add('is-visible');
             emptyState.classList.remove('is-hidden');
-            memoCount.textContent = '0/7개의 메모';
+            memoCount.textContent = window.i18n.t('memoCount', { count: 0 });
         } else {
             memoList.classList.remove('is-hidden');
             emptyState.classList.remove('is-visible');
             emptyState.classList.add('is-hidden');
-            memoCount.textContent = `${this.memos.length}/7개의 메모`;
+            memoCount.textContent = window.i18n.t('memoCount', { count: this.memos.length });
             
             memoList.innerHTML = this.memos.map(memo => this.renderMemo(memo)).join('');
         }
@@ -463,7 +463,7 @@ class MemoApp {
         if (this.memos.length >= 7 && this.currentEditId === null) {
             // 편집 모드가 아닐 때만 버튼 비활성화
             addMemoBtn.disabled = true;
-            addMemoBtn.title = '메모는 최대 7개까지만 작성할 수 있습니다. 기존 메모를 삭제해주세요.';
+            addMemoBtn.title = window.i18n.t('tooltipMemoLimit');
             addMemoBtn.classList.add('memo-limit-reached');
             
             // 메모 카운터에 경고 스타일 적용
@@ -471,7 +471,7 @@ class MemoApp {
         } else if (this.memos.length === 6 && this.currentEditId === null) {
             // 6개일 때 경고 스타일 적용
             addMemoBtn.disabled = false;
-            addMemoBtn.title = '마지막 메모입니다. 새로운 메모를 추가하려면 기존 메모를 삭제해야 합니다.';
+            addMemoBtn.title = window.i18n.t('tooltipLastMemo');
             addMemoBtn.classList.remove('memo-limit-reached');
             
             // 메모 카운터에 경고 스타일 적용
@@ -498,7 +498,7 @@ class MemoApp {
             this.memos = data || [];
         } catch (error) {
             console.error('메모 로드 중 오류 발생:', error);
-            this.showNotification('메모를 불러오는 중 오류가 발생했습니다.', 'error');
+            this.showNotification(window.i18n.t('notifyLoadError'), 'error');
             this.memos = [];
         }
     }
@@ -590,7 +590,7 @@ class MemoApp {
             console.log('광고가 숨겨짐');
             
             // 성공 알림 표시
-            this.showNotification('광고를 숨겼습니다.', 'success');
+            this.showNotification(window.i18n.t('notifyAdHidden'), 'success');
         } else {
             console.error('광고 섹션을 찾을 수 없습니다.');
         }
