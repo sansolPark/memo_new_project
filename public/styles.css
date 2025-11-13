@@ -754,3 +754,102 @@ body {
 /* 연결 상태 표시 토글 */
 .connection-status { display: none; }
 .connection-status.is-visible { display: block; }
+
+/* 후원 섹션 스타일 */
+.support-section {
+    margin-top: 40px;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.support-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.support-container i.fa-coffee {
+    font-size: 2.5rem;
+    color: #667eea;
+    margin-bottom: 5px;
+}
+
+.support-text {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.support-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+    color: white;
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.support-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.support-btn i {
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    10%, 30% { transform: scale(1.1); }
+    20%, 40% { transform: scale(1); }
+}
+
+/* 모바일 후원 섹션 최적화 */
+@media (max-width: 768px) {
+    .support-section {
+        margin-top: 30px;
+        padding: 20px 0;
+    }
+
+    .support-container {
+        padding: 25px 20px;
+    }
+
+    .support-container i.fa-coffee {
+        font-size: 2rem;
+    }
+
+    .support-text {
+        font-size: 0.95rem;
+    }
+
+    .support-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .support-container {
+        padding: 20px 15px;
+    }
+
+    .support-text {
+        font-size: 0.9rem;
+    }
+}

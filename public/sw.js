@@ -1,5 +1,5 @@
 // 캐시 이름을 'v1'으로 설정합니다. (업데이트 시 'v2'로 변경하세요!)
-const CACHE_NAME = 'memo-app-v1'; 
+const CACHE_NAME = 'memo-app-v2'; 
 const urlsToCache = [
   '/',
   '/index.html',
