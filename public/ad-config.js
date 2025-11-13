@@ -2,12 +2,6 @@
 // 이 파일에서 광고 내용을 쉽게 수정할 수 있습니다.
 
 const AD_CONFIG = {
-    // 광고 제목
-    title: '메모가 지워져서 답답하시죠?',
-    
-    // 광고 설명
-    description: '내가 쓴 메모가 지워지지 않는 메모앱, OTU.AI를 사용해보세요!',
-    
     // 광고 링크 (실제 광고 URL로 변경하세요)
     link: 'https://otu.ai/home',
     
@@ -18,6 +12,15 @@ const AD_CONFIG = {
     theme: {
         primary: '#ff6b6b',
         secondary: '#ffa500'
+    },
+    
+    // 다국어 지원 - 광고 제목과 설명은 i18n.js에서 관리
+    getTitle: () => {
+        return window.i18n ? window.i18n.t('adTitle') : '메모가 지워져서 답답하시죠?';
+    },
+    
+    getDescription: () => {
+        return window.i18n ? window.i18n.t('adDescription') : '내가 쓴 메모가 지워지지 않는 메모앱, OTU.AI를 사용해보세요!';
     }
 };
 

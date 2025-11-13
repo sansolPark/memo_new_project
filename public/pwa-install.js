@@ -53,9 +53,12 @@ function createInstallButton() {
   installButton = document.createElement('button');
   installButton.id = 'pwa-install-btn';
   installButton.className = 'pwa-install-btn';
+  
+  // 다국어 지원
+  const buttonText = window.i18n ? window.i18n.t('pwaInstall') : '앱 설치';
   installButton.innerHTML = `
     <i class="fas fa-download"></i>
-    앱 설치
+    ${buttonText}
   `;
   // 스타일은 CSS 클래스에서 적용
   
@@ -116,7 +119,8 @@ window.addEventListener('offline', () => {
 function showOnlineStatus() {
   const status = document.getElementById('connection-status');
   if (status) {
-    status.textContent = '온라인';
+    const onlineText = window.i18n ? (window.i18n.getCurrentLanguage() === 'ko' ? '온라인' : 'Online') : '온라인';
+    status.textContent = onlineText;
     status.className = 'connection-status online';
   }
 }
@@ -125,7 +129,8 @@ function showOnlineStatus() {
 function showOfflineStatus() {
   const status = document.getElementById('connection-status');
   if (status) {
-    status.textContent = '오프라인';
+    const offlineText = window.i18n ? (window.i18n.getCurrentLanguage() === 'ko' ? '오프라인' : 'Offline') : '오프라인';
+    status.textContent = offlineText;
     status.className = 'connection-status offline';
   }
 }

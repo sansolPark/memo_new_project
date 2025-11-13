@@ -605,11 +605,11 @@ class MemoApp {
             return;
         }
         
-        // 광고 설정 파일의 설정을 사용
+        // 광고 설정 파일의 설정을 사용 (다국어 지원)
         if (window.AD_CONFIG && window.AD_CONFIG.enabled) {
             this.updateAd(
-                window.AD_CONFIG.title,
-                window.AD_CONFIG.description,
+                window.AD_CONFIG.getTitle(),
+                window.AD_CONFIG.getDescription(),
                 window.AD_CONFIG.link
             );
         }

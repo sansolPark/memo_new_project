@@ -47,7 +47,12 @@ const translations = {
         adBadge: "광고",
         adClose: "광고 닫기",
         adViewMore: "자세히 보기",
+        adTitle: "메모가 지워져서 답답하시죠?",
+        adDescription: "내가 쓴 메모가 지워지지 않는 메모앱, OTU.AI를 사용해보세요!",
         notifyAdHidden: "광고를 숨겼습니다.",
+        
+        // PWA 설치
+        pwaInstall: "앱 설치",
         
         // 후원
         supportText: "이 서비스가 유용하셨나요? 커피 한 잔으로 응원해주세요!",
@@ -105,7 +110,12 @@ const translations = {
         adBadge: "Ad",
         adClose: "Close ad",
         adViewMore: "View more",
+        adTitle: "Frustrated with deleted memos?",
+        adDescription: "Try OTU.AI, a memo app where your notes never get deleted!",
         notifyAdHidden: "Ad has been hidden.",
+        
+        // PWA Install
+        pwaInstall: "Install App",
         
         // Support
         supportText: "Did you find this service useful? Support us with a coffee!",
@@ -218,9 +228,33 @@ class I18n {
             adLink.appendChild(document.createTextNode(' ' + this.t('adViewMore')));
         }
         
+        // 메모 추가 버튼
+        const addMemoBtn = document.getElementById('addMemoBtn');
+        if (addMemoBtn && !addMemoBtn.innerHTML.includes('fa-save')) {
+            addMemoBtn.innerHTML = `<i class="fas fa-plus"></i> ${this.t('addMemo')}`;
+        }
+        
+        // PWA 설치 버튼
+        const pwaInstallBtn = document.getElementById('pwa-install-btn');
+        if (pwaInstallBtn) {
+            const icon = pwaInstallBtn.querySelector('i');
+            pwaInstallBtn.innerHTML = '';
+            if (icon) pwaInstallBtn.appendChild(icon.cloneNode(true));
+            pwaInstallBtn.appendChild(document.createTextNode(' ' + this.t('pwaInstall')));
+        }
+        
+        // 광고 제목과 설명 업데이트
+        const adTitle = document.querySelector('.ad-title');
+        if (adTitle) adTitle.textContent = this.t('adTitle');
+        
+        const adDescription = document.querySelector('.ad-description');
+        if (adDescription) adDescription.textContent = this.t('adDescription');
+        
         // 메모 카운트 업데이트 (MemoApp에서 처리)
         if (window.memoApp) {
             window.memoApp.updateUI();
+            // 광고도 다시 설정
+            window.memoApp.setupDefaultAd();
         }
     }
 
