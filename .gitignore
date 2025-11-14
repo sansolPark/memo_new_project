@@ -73,3 +73,6 @@ logs
 tmp/
 temp/
 .vercel
+
+# Obfuscation backups
+*.original.js

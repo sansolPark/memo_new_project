@@ -3,16 +3,6 @@ class MemoApp {
         this.memos = [];
         this.currentEditId = null;
         this.supabase = null;
-        
-        // 금칙어 리스트 (개발자가 직접 수정/추가 가능)
-        this.bannedWords = [
-            "바보", "멍청이", "병신", "미친", "개새끼", "씨발", "좆", "존나", 
-            "개놈", "년", "놈", "죽어", "꺼져", "닥쳐", "시발", "개자식",
-            "새끼", "븅신", "또라이", "정신병", "장애", "개빡", "개쓰레기",
-            "쓰레기", "쪽팔려", "한심", "개못생김", "추남", "추녀", "돼지",
-            "뚱보", "개뚱", "개못남", "개못해", "개구림", "개더러워"
-        ];
-        
         this.init();
     }
 
@@ -102,8 +92,8 @@ class MemoApp {
             return;
         }
 
-        // 입력 내용 검증
-        const validation = this.validateInput('', content);
+        // 서버 측 검증
+        const validation = await validateWithServer(content);
         if (!validation.isValid) {
             this.showNotification(validation.message, 'error');
             return;
@@ -164,8 +154,8 @@ class MemoApp {
     }
 
     async updateMemo(id, content) {
-        // 수정 시에도 입력 내용 검증
-        const validation = this.validateInput('', content);
+        // 서버 측 검증
+        const validation = await validateWithServer(content);
         if (!validation.isValid) {
             this.showNotification(validation.message, 'error');
             return;
@@ -262,81 +252,16 @@ class MemoApp {
         }
     }
 
-    // 금칙어 검사 메서드
-    containsBannedWords(text) {
-        const lowerText = text.toLowerCase();
-        return this.bannedWords.some(word => 
-            lowerText.includes(word.toLowerCase())
-        );
-    }
-
-    // 숫자 포함 검사 메서드
-    containsNumbers(text) {
-        return /\d/.test(text);
-    }
-
-    // 실시간 입력 검증 및 정리 메서드
+    // 실시간 입력 검증 (클라이언트 측 빠른 피드백)
     validateAndCleanInput(inputElement, fieldType) {
-        let text = inputElement.value;
-        const originalText = text;
-        let hasChanges = false;
+        const text = inputElement.value;
         
-        // 금칙어 제거
-        this.bannedWords.forEach(word => {
-            const regex = new RegExp(word, 'gi');
-            if (regex.test(text)) {
-                text = text.replace(regex, '***');
-                hasChanges = true;
-            }
-        });
-        
-        // 숫자 제거
-        if (/\d/.test(text)) {
-            text = text.replace(/\d/g, '');
-            hasChanges = true;
-        }
-        
-        // 변경사항이 있으면 입력 필드 업데이트
-        if (hasChanges) {
-            const cursorPosition = inputElement.selectionStart;
-            inputElement.value = text;
-            
-            // 커서 위치 조정
-            const newCursorPosition = Math.min(cursorPosition, text.length);
-            inputElement.setSelectionRange(newCursorPosition, newCursorPosition);
-            
-            // 경고 메시지 표시
-            this.showInputError(fieldType, window.i18n.t('notifyContentRemoved'));
-            
-            // 2초 후 경고 메시지 제거
-            setTimeout(() => {
-                this.clearInputError(fieldType);
-            }, 2000);
+        // 길이 체크만 클라이언트에서
+        if (text.length > 500) {
+            this.showInputError(fieldType, 'Content is too long (max 500 characters)');
         } else {
-            // 검증 통과 시 에러 메시지 제거
             this.clearInputError(fieldType);
         }
-    }
-
-    // 실시간 입력 검증 메서드 (기존 유지)
-    validateInputRealTime(text, fieldType) {
-        const fieldName = fieldType === 'memoTitle' ? '제목' : '내용';
-        
-        // 금칙어 검사
-        if (this.containsBannedWords(text)) {
-            this.showInputError(fieldType, '부적절한 언어가 포함되어 있습니다. 다른 표현을 사용해주세요.');
-            return false;
-        }
-        
-        // 숫자 포함 검사
-        if (this.containsNumbers(text)) {
-            this.showInputError(fieldType, '개인정보 보호를 위해 숫자가 포함된 내용은 저장할 수 없습니다.');
-            return false;
-        }
-        
-        // 검증 통과 시 에러 메시지 제거
-        this.clearInputError(fieldType);
-        return true;
     }
 
     // 입력 필드 에러 표시
@@ -344,24 +269,17 @@ class MemoApp {
         const field = document.getElementById(fieldType);
         const errorElement = document.getElementById(`${fieldType}Error`);
         
-        // 기존 에러 메시지 제거
         if (errorElement) {
             errorElement.remove();
         }
         
-        // 에러 메시지 생성
         const errorDiv = document.createElement('div');
         errorDiv.id = `${fieldType}Error`;
         errorDiv.className = 'input-error';
         errorDiv.textContent = message;
         
-        // 필드에 에러 스타일 적용
         field.classList.add('input-has-error');
-        
-        // 에러 메시지 삽입
         field.parentNode.insertBefore(errorDiv, field.nextSibling);
-        
-        // 입력 내용을 빨간색으로 표시 (클래스로 처리)
     }
 
     // 입력 필드 에러 제거
@@ -373,31 +291,7 @@ class MemoApp {
             errorElement.remove();
         }
         
-        // 필드 스타일 복원
         field.classList.remove('input-has-error');
-    }
-
-    // 입력 내용 검증 메서드
-    validateInput(title, content) {
-        const fullText = `${title} ${content}`.trim();
-        
-        // 금칙어 검사
-        if (this.containsBannedWords(fullText)) {
-            return {
-                isValid: false,
-                message: window.i18n.t('notifyBannedWords')
-            };
-        }
-        
-        // 숫자 포함 검사
-        if (this.containsNumbers(fullText)) {
-            return {
-                isValid: false,
-                message: window.i18n.t('notifyNumbersNotAllowed')
-            };
-        }
-        
-        return { isValid: true };
     }
 
     updateCharCount(content) {
