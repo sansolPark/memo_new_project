@@ -6,7 +6,7 @@ const path = require('path');
 const filesToObfuscate = [
     'public/script.js',
     'public/validation.js',
-    'public/supabase-config.js'
+    'public/api-client.js'
 ];
 
 // 난독화 옵션

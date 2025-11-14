@@ -88,6 +88,17 @@ function validateContent(content) {
   return { valid: true };
 }
 
+// Supabase 클라이언트 초기화 (서버용)
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
+
+const supabaseUrl = process.env.SUPABASE_URL || 'https://bztetglagnmfgkznheeg.supabase.co';
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY; // Service Role Key (서버 전용)
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dGV0Z2xhZ25tZmdrem5oZWVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3NTU5NzcsImV4cCI6MjA1MjMzMTk3N30.Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq';
+
+// 서버용 Supabase 클라이언트 (Service Role Key 사용 시 RLS 우회 가능)
+const supabase = createClient(supabaseUrl, supabaseServiceKey || supabaseAnonKey);
+
 // API 라우트: 콘텐츠 검증
 app.post('/api/validate', rateLimit, (req, res) => {
   const { content } = req.body;
@@ -98,6 +109,112 @@ app.post('/api/validate', rateLimit, (req, res) => {
   }
   
   res.json({ valid: true });
+});
+
+// API 라우트: 메모 목록 조회
+app.get('/api/memos', rateLimit, async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('memos')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    res.json({ success: true, data: data || [] });
+  } catch (error) {
+    console.error('메모 조회 오류:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch memos' });
+  }
+});
+
+// API 라우트: 메모 추가
+app.post('/api/memos', rateLimit, async (req, res) => {
+  try {
+    const { content } = req.body;
+    
+    // 서버 측 검증
+    const validation = validateContent(content);
+    if (!validation.valid) {
+      return res.status(400).json({ success: false, error: validation.error });
+    }
+    
+    // 메모 개수 확인
+    const { count } = await supabase
+      .from('memos')
+      .select('*', { count: 'exact', head: true });
+    
+    if (count >= 7) {
+      return res.status(400).json({ success: false, error: 'MEMO_LIMIT_REACHED' });
+    }
+    
+    // 메모 삽입
+    const { data, error } = await supabase
+      .from('memos')
+      .insert([{
+        content: content,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }])
+      .select();
+
+    if (error) throw error;
+
+    res.json({ success: true, data: data[0] });
+  } catch (error) {
+    console.error('메모 추가 오류:', error);
+    res.status(500).json({ success: false, error: 'Failed to add memo' });
+  }
+});
+
+// API 라우트: 메모 수정
+app.put('/api/memos/:id', rateLimit, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content } = req.body;
+    
+    // 서버 측 검증
+    const validation = validateContent(content);
+    if (!validation.valid) {
+      return res.status(400).json({ success: false, error: validation.error });
+    }
+    
+    // 메모 수정
+    const { data, error } = await supabase
+      .from('memos')
+      .update({
+        content: content,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', id)
+      .select();
+
+    if (error) throw error;
+
+    res.json({ success: true, data: data[0] });
+  } catch (error) {
+    console.error('메모 수정 오류:', error);
+    res.status(500).json({ success: false, error: 'Failed to update memo' });
+  }
+});
+
+// API 라우트: 메모 삭제
+app.delete('/api/memos/:id', rateLimit, async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const { error } = await supabase
+      .from('memos')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('메모 삭제 오류:', error);
+    res.status(500).json({ success: false, error: 'Failed to delete memo' });
+  }
 });
 
 // 정적 파일 제공

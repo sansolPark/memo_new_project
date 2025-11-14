@@ -5,7 +5,7 @@ const path = require('path');
 const filesToRestore = [
     'public/script.js',
     'public/validation.js',
-    'public/supabase-config.js'
+    'public/api-client.js'
 ];
 
 console.log('=== Restoring Original Files ===\n');
