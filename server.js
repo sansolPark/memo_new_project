@@ -67,10 +67,15 @@ function validateContent(content) {
     return { valid: false, error: 'CONTENT_TOO_LONG' };
   }
   
-  // 금칙어 검사
-  const lowerContent = content.toLowerCase();
+  // 금칙어 검사 (고급 - 공백, 특수문자 제거 후 검사)
+  const normalizedContent = content
+    .toLowerCase()
+    .replace(/[\s\-_.,!?]/g, '') // 공백, 특수문자 제거
+    .replace(/[ㄱ-ㅎㅏ-ㅣ]/g, ''); // 자음/모음 제거
+  
   for (const word of bannedWords) {
-    if (lowerContent.includes(word.toLowerCase())) {
+    const normalizedWord = word.toLowerCase().replace(/[\s\-_.,!?]/g, '');
+    if (normalizedContent.includes(normalizedWord)) {
       return { valid: false, error: 'BANNED_WORDS' };
     }
   }

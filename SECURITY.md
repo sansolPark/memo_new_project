@@ -51,28 +51,32 @@ npm run restore
 2. **Git 커밋 전**: 난독화된 코드를 커밋하지 마세요 (개발 어려움)
 3. **배포 시에만**: Vercel 배포 전에만 난독화 실행
 
-### 🔒 추가 보안 권장사항
-1. **Supabase RLS 설정**:
-   ```sql
-   -- memos 테이블에 RLS 활성화
-   ALTER TABLE memos ENABLE ROW LEVEL SECURITY;
-   
-   -- 읽기 정책
-   CREATE POLICY "Anyone can read memos"
-   ON memos FOR SELECT
-   USING (true);
-   
-   -- 쓰기 정책 (서버에서만)
-   CREATE POLICY "Only server can insert"
-   ON memos FOR INSERT
-   WITH CHECK (false); -- 클라이언트 직접 삽입 차단
-   ```
+### 🔒 Supabase RLS 설정 (필수!)
 
-2. **환경 변수 보호**:
+**중요**: DB 레벨 보안을 위해 반드시 설정하세요!
+
+#### 빠른 설정 (5분)
+1. Supabase Dashboard 접속
+2. SQL Editor 열기
+3. `supabase/policies.sql` 파일 내용 복사
+4. 붙여넣기 후 실행 (Run 버튼)
+
+**자세한 가이드**: `supabase/README.md` 참고
+
+#### RLS 적용 효과
+- ✅ 7개 메모 제한 (DB 레벨 강제)
+- ✅ 500자 제한 (DB 레벨 강제)
+- ✅ 빈 내용 차단
+- ✅ 대량 삽입 방지
+- ✅ 직접 API 공격 차단
+
+### 🔒 추가 보안 권장사항
+
+1. **환경 변수 보호** (선택):
    - Supabase 키를 `.env` 파일로 이동
    - 서버에서만 사용하도록 변경
 
-3. **API 인증 추가**:
+2. **API 인증 추가** (선택):
    - JWT 토큰 기반 인증
    - API 키 검증
 
@@ -82,8 +86,8 @@ npm run restore
 - [x] Rate Limiting 적용
 - [x] 코드 난독화 설정
 - [x] 보안 헤더 적용
-- [ ] Supabase RLS 설정 (권장)
-- [ ] 환경 변수 분리 (권장)
+- [ ] **Supabase RLS 설정 (필수!)** ← 지금 바로 설정!
+- [ ] 환경 변수 분리 (선택)
 - [ ] API 인증 추가 (선택)
 
 ## 문제 발생 시
