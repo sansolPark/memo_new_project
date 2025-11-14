@@ -11,36 +11,22 @@ const filesToObfuscate = [
     'api/validate.js'
 ];
 
-// 난독화 옵션
+// 난독화 옵션 (Vercel 빌드 최적화 - 빠른 버전)
 const obfuscationOptions = {
     compact: true,
-    controlFlowFlattening: true,
-    controlFlowFlatteningThreshold: 0.75,
-    deadCodeInjection: true,
-    deadCodeInjectionThreshold: 0.4,
-    debugProtection: false, // 개발 중에는 false
-    debugProtectionInterval: 0,
-    disableConsoleOutput: false, // 로그 필요시 false
+    controlFlowFlattening: false, // 빌드 속도 개선
+    deadCodeInjection: false, // 빌드 속도 개선
+    debugProtection: false,
     identifierNamesGenerator: 'hexadecimal',
     log: false,
-    numbersToExpressions: true,
     renameGlobals: false,
-    selfDefending: true,
+    selfDefending: false, // 빌드 속도 개선
     simplify: true,
-    splitStrings: true,
-    splitStringsChunkLength: 10,
+    splitStrings: false, // 빌드 속도 개선
     stringArray: true,
-    stringArrayCallsTransform: true,
-    stringArrayEncoding: ['base64'],
-    stringArrayIndexShift: true,
-    stringArrayRotate: true,
-    stringArrayShuffle: true,
-    stringArrayWrappersCount: 2,
-    stringArrayWrappersChainedCalls: true,
-    stringArrayWrappersParametersMaxCount: 4,
-    stringArrayWrappersType: 'function',
-    stringArrayThreshold: 0.75,
-    transformObjectKeys: true,
+    stringArrayEncoding: [], // 빌드 속도 개선
+    stringArrayThreshold: 0.5,
+    transformObjectKeys: false, // 빌드 속도 개선
     unicodeEscapeSequence: false
 };
 

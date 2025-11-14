@@ -1,0 +1,7 @@
+*.original.js
+obfuscate.js
+restore.js
+node_modules
+.git
+.env
+.env.local
