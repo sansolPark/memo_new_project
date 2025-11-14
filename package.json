@@ -8,7 +8,8 @@
     "dev": "nodemon server.js",
     "obfuscate": "node obfuscate.js",
     "restore": "node restore.js",
-    "build": "node obfuscate.js && node server.js",
+    "build": "node obfuscate.js",
+    "vercel-build": "node obfuscate.js",
     "db:push": "supabase db push",
     "db:setup": "echo 'Please run: supabase link --project-ref YOUR_PROJECT_ID'"
   },

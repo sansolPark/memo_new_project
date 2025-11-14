@@ -6,7 +6,9 @@ const path = require('path');
 const filesToObfuscate = [
     'public/script.js',
     'public/validation.js',
-    'public/api-client.js'
+    'public/api-client.js',
+    'api/memos.js',
+    'api/validate.js'
 ];
 
 // 난독화 옵션

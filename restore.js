@@ -5,7 +5,9 @@ const path = require('path');
 const filesToRestore = [
     'public/script.js',
     'public/validation.js',
-    'public/api-client.js'
+    'public/api-client.js',
+    'api/memos.js',
+    'api/validate.js'
 ];
 
 console.log('=== Restoring Original Files ===\n');

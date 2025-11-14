@@ -93,11 +93,10 @@ const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
 const supabaseUrl = process.env.SUPABASE_URL || 'https://bztetglagnmfgkznheeg.supabase.co';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY; // Service Role Key (서버 전용)
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dGV0Z2xhZ25tZmdrem5oZWVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3NTU5NzcsImV4cCI6MjA1MjMzMTk3N30.Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq';
 
-// 서버용 Supabase 클라이언트 (Service Role Key 사용 시 RLS 우회 가능)
-const supabase = createClient(supabaseUrl, supabaseServiceKey || supabaseAnonKey);
+// 서버용 Supabase 클라이언트 (Anon Key 사용 - RLS 정책 적용됨)
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // API 라우트: 콘텐츠 검증
 app.post('/api/validate', rateLimit, (req, res) => {
