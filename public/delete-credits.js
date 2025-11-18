@@ -7,14 +7,18 @@ class DeleteCreditsManager {
 
     init() {
         // 초기 삭제권이 없으면 0으로 설정
-        if (this.getCredits() === null) {
+        const credits = localStorage.getItem(this.storageKey);
+        if (credits === null || credits === undefined) {
             this.setCredits(0);
         }
     }
 
     getCredits() {
         const credits = localStorage.getItem(this.storageKey);
-        return credits !== null ? parseInt(credits) : null;
+        if (credits === null || credits === undefined || credits === '') {
+            return 0;
+        }
+        return parseInt(credits);
     }
 
     setCredits(count) {

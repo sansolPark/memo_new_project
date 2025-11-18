@@ -165,10 +165,35 @@ class MemoApp {
     }
 
     async deleteMemo(id) {
+        // 삭제권 시스템 확인
+        if (!window.deleteCreditsManager || !window.adModal) {
+            console.error('삭제권 시스템이 초기화되지 않았습니다.');
+            // 기본 삭제 로직으로 폴백
+            if (confirm(window.i18n.t('confirmDelete'))) {
+                try {
+                    const { error } = await API.deleteMemo(id);
+                    if (error) throw error;
+                    this.memos = this.memos.filter(memo => memo.id !== id);
+                    this.updateUI();
+                    this.showNotification(window.i18n.t('notifyMemoDeleted'), 'info');
+                } catch (error) {
+                    console.error('메모 삭제 오류:', error);
+                    this.showNotification(window.i18n.t('notifyDeleteError'), 'error');
+                }
+            }
+            return;
+        }
+
         // 삭제권 확인
-        if (!window.deleteCreditsManager.hasCredits()) {
+        const hasCredits = window.deleteCreditsManager.hasCredits();
+        console.log('삭제권 확인:', hasCredits, '현재 삭제권:', window.deleteCreditsManager.getCredits());
+
+        if (!hasCredits) {
             // 광고 모달 표시
+            console.log('광고 모달 표시 시작');
             const watched = await window.adModal.show();
+            console.log('광고 시청 완료:', watched);
+            
             if (!watched) {
                 return; // 광고를 보지 않으면 삭제 취소
             }
