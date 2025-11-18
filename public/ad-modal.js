@@ -142,8 +142,8 @@ class AdModal {
 
         // 닫기 버튼
         const closeBtn = document.createElement('button');
-        closeBtn.id = 'adCloseBtn';
-        closeBtn.className = 'ad-close-btn';
+        closeBtn.id = 'adModalCloseBtn';
+        closeBtn.className = 'ad-modal-close-btn';
         const closeBtnText = window.i18n ? window.i18n.t('adCloseButton') : '닫기';
         closeBtn.innerHTML = `<i class="fas fa-times"></i> ${closeBtnText}`;
         closeBtn.addEventListener('click', (e) => {
@@ -203,7 +203,7 @@ class AdModal {
         
         // 약간의 지연 후 버튼 찾기 (DOM 생성 대기)
         setTimeout(() => {
-            const closeBtn = document.getElementById('adCloseBtn');
+            const closeBtn = document.getElementById('adModalCloseBtn');
             
             if (!closeBtn) {
                 console.error('닫기 버튼을 찾을 수 없습니다');
@@ -234,7 +234,7 @@ class AdModal {
         console.log('동영상 타이머 시작:', totalSeconds, '초');
         
         setTimeout(() => {
-            const closeBtn = document.getElementById('adCloseBtn');
+            const closeBtn = document.getElementById('adModalCloseBtn');
             
             if (!closeBtn) {
                 console.error('닫기 버튼을 찾을 수 없습니다');
@@ -299,7 +299,7 @@ class AdModal {
 
     enableCloseButton() {
         this.canClose = true;
-        const closeBtn = document.getElementById('adCloseBtn');
+        const closeBtn = document.getElementById('adModalCloseBtn');
         if (closeBtn) {
             const closeBtnText = window.i18n ? window.i18n.t('adCloseButton') : '닫기';
             closeBtn.innerHTML = `<i class="fas fa-times"></i> ${closeBtnText}`;

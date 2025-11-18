@@ -931,7 +931,8 @@ body {
     box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
 }
 
-.ad-close-btn {
+/* 광고 모달 닫기 버튼 (새로운 클래스) */
+.ad-modal-close-btn {
     background: #95a5a6;
     color: white;
     border: none;
@@ -946,10 +947,10 @@ body {
     justify-content: center;
     gap: 8px;
     opacity: 0.6;
-    min-width: 150px;
+    min-width: 180px;
 }
 
-.ad-close-btn.timer-active {
+.ad-modal-close-btn.timer-active {
     background: #e67e22;
     opacity: 1;
     animation: pulse 1s ease-in-out infinite;
@@ -964,15 +965,49 @@ body {
     }
 }
 
-.ad-close-btn.enabled {
+.ad-modal-close-btn.enabled {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     opacity: 1;
     animation: none;
 }
 
-.ad-close-btn.enabled:hover {
+.ad-modal-close-btn.enabled:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* 기존 광고 섹션 닫기 버튼 (유지) */
+.ad-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    z-index: 2;
+}
+
+.ad-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.ad-close-btn:active {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0.95);
 }
 
 /* 모바일 최적화 */
