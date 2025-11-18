@@ -252,10 +252,13 @@ class AdModal {
                 const currentRemaining = Math.ceil(totalSeconds - video.currentTime);
                 console.log('동영상 타이머 업데이트:', currentRemaining);
                 
-                if (currentRemaining > 0) {
+                if (currentRemaining > 1) {
                     this.updateTimerDisplay(closeBtn, currentRemaining);
                 } else {
+                    // 타이머 종료
                     clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                    console.log('동영상 타이머 종료');
                 }
             }, 1000);
         }, 100);
