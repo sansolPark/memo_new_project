@@ -61,7 +61,13 @@ const translations = {
         // 툴팁
         tooltipCopy: "메모 내용 복사",
         tooltipMemoLimit: "메모는 최대 7개까지만 작성할 수 있습니다. 기존 메모를 삭제해주세요.",
-        tooltipLastMemo: "마지막 메모입니다. 새로운 메모를 추가하려면 기존 메모를 삭제해야 합니다."
+        tooltipLastMemo: "마지막 메모입니다. 새로운 메모를 추가하려면 기존 메모를 삭제해야 합니다.",
+        
+        // 삭제권 시스템
+        deleteCredits: "삭제권: {count}회",
+        notifyCreditsRewarded: "삭제권 7회가 지급되었습니다!",
+        notifyNoCredits: "삭제권이 부족합니다. 광고를 시청해주세요.",
+        adInfoText: "광고 시청 후 삭제 가능해요"
     },
     en: {
         // Header
@@ -124,7 +130,13 @@ const translations = {
         // Tooltips
         tooltipCopy: "Copy memo content",
         tooltipMemoLimit: "You can only create up to 7 memos. Please delete an existing memo.",
-        tooltipLastMemo: "This is your last memo slot. Delete an existing memo to add a new one."
+        tooltipLastMemo: "This is your last memo slot. Delete an existing memo to add a new one.",
+        
+        // Delete Credits System
+        deleteCredits: "Delete Credits: {count}",
+        notifyCreditsRewarded: "7 delete credits have been rewarded!",
+        notifyNoCredits: "Not enough delete credits. Please watch an ad.",
+        adInfoText: "Watch the ad to delete memos"
     }
 };
 

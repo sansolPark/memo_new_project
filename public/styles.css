@@ -755,6 +755,166 @@ body {
 .connection-status { display: none; }
 .connection-status.is-visible { display: block; }
 
+/* 삭제권 표시 */
+.delete-credits-display {
+    color: #667eea;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-left: 15px;
+    padding: 5px 12px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* 광고 모달 */
+.ad-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ad-modal-overlay.show {
+    opacity: 1;
+}
+
+.ad-modal {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 90%;
+    max-height: 90%;
+    width: 600px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.ad-container {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+}
+
+.ad-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.ad-image-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+}
+
+.ad-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.ad-info-text {
+    color: #555;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+}
+
+.ad-close-btn {
+    background: #95a5a6;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: not-allowed;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ad-close-btn.enabled {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    cursor: pointer;
+}
+
+.ad-close-btn.enabled:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.ad-close-btn:disabled {
+    opacity: 0.6;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+    .ad-modal {
+        width: 95%;
+        padding: 20px;
+        max-height: 85%;
+    }
+
+    .ad-container {
+        max-width: 100%;
+    }
+
+    .ad-video,
+    .ad-image {
+        max-height: 300px;
+    }
+
+    .ad-info-text {
+        font-size: 1rem;
+    }
+
+    .delete-credits-display {
+        font-size: 0.9rem;
+        margin-left: 10px;
+        padding: 4px 10px;
+    }
+
+    .memo-stats {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
 /* 후원 섹션 스타일 */
 .support-section {
     margin-top: 40px;

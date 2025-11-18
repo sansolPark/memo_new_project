@@ -1,1 +1,174 @@
-function _0x1b3a(_0x4e4a67,_0x1649c0){const _0x25d87f=_0x25d8();return _0x1b3a=function(_0x1b3a2b,_0x1e8d9e){_0x1b3a2b=_0x1b3a2b-0xde;let _0x1034ce=_0x25d87f[_0x1b3a2b];return _0x1034ce;},_0x1b3a(_0x4e4a67,_0x1649c0);}const _0x5ecdaa=_0x1b3a;(function(_0x31478d,_0xbb0a62){const _0x16504c=_0x1b3a,_0x26e620=_0x31478d();while(!![]){try{const _0x31db95=-parseInt(_0x16504c(0xeb))/0x1+-parseInt(_0x16504c(0x10d))/0x2+parseInt(_0x16504c(0x101))/0x3+-parseInt(_0x16504c(0x102))/0x4*(parseInt(_0x16504c(0x103))/0x5)+-parseInt(_0x16504c(0x112))/0x6*(-parseInt(_0x16504c(0xf0))/0x7)+-parseInt(_0x16504c(0xe0))/0x8*(-parseInt(_0x16504c(0xf9))/0x9)+-parseInt(_0x16504c(0xf3))/0xa*(-parseInt(_0x16504c(0x100))/0xb);if(_0x31db95===_0xbb0a62)break;else _0x26e620['push'](_0x26e620['shift']());}catch(_0x369d72){_0x26e620['push'](_0x26e620['shift']());}}}(_0x25d8,0x8c289));import{createClient}from'@supabase/supabase-js';const supabaseUrl=process['env']['SUPABASE_URL']||_0x5ecdaa(0xff),supabaseAnonKey=process['env'][_0x5ecdaa(0x108)]||'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dGV0Z2xhZ25tZmdrem5oZWVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3NTU5NzcsImV4cCI6MjA1MjMzMTk3N30.Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq',supabase=createClient(supabaseUrl,supabaseAnonKey),rateLimitMap=new Map(),RATE_LIMIT_WINDOW=0xea60,MAX_REQUESTS=0x1e;function checkRateLimit(_0x2e27f){const _0x1255de=_0x5ecdaa,_0x2a7919=Date['now']();!rateLimitMap[_0x1255de(0xfe)](_0x2e27f)&&rateLimitMap['set'](_0x2e27f,[]);const _0x4b93d1=rateLimitMap[_0x1255de(0xe1)](_0x2e27f)[_0x1255de(0xe2)](_0xe7336a=>_0x2a7919-_0xe7336a<RATE_LIMIT_WINDOW);if(_0x4b93d1[_0x1255de(0xef)]>=MAX_REQUESTS)return![];return _0x4b93d1[_0x1255de(0xf2)](_0x2a7919),rateLimitMap['set'](_0x2e27f,_0x4b93d1),!![];}const bannedWords=['바보',_0x5ecdaa(0xde),'병신','미친','개새끼','씨발','좆','존나','개놈','년','놈','죽어','꺼져','닥쳐','시발','개자식','새끼','븅신',_0x5ecdaa(0xe9),_0x5ecdaa(0xed),'장애','개빡',_0x5ecdaa(0xfa),_0x5ecdaa(0x11b),_0x5ecdaa(0xe7),'한심','개못생김','추남','추녀','돼지','뚱보','개뚱',_0x5ecdaa(0xe6),'개못해',_0x5ecdaa(0xe5),'개더러워'];function validateContent(_0x3d2b04){const _0x4d4667=_0x5ecdaa;if(!_0x3d2b04||typeof _0x3d2b04!==_0x4d4667(0xe8))return{'valid':![],'error':_0x4d4667(0x106)};if(_0x3d2b04[_0x4d4667(0xef)]>0x1f4)return{'valid':![],'error':_0x4d4667(0x104)};const _0x527b79=_0x3d2b04['toLowerCase']()[_0x4d4667(0x11a)](/[\s\-_.,!?]/g,'')['replace'](/[ㄱ-ㅎㅏ-ㅣ]/g,'');for(const _0x48114a of bannedWords){const _0x29c2e8=_0x48114a[_0x4d4667(0x116)]()['replace'](/[\s\-_.,!?]/g,'');if(_0x527b79[_0x4d4667(0x10a)](_0x29c2e8))return{'valid':![],'error':_0x4d4667(0x117)};}if(/\d/[_0x4d4667(0xfd)](_0x3d2b04))return{'valid':![],'error':_0x4d4667(0x111)};return{'valid':!![]};}export default async function handler(_0x4e4d08,_0x377803){const _0x13635e=_0x5ecdaa;_0x377803[_0x13635e(0x109)]('Access-Control-Allow-Credentials',!![]),_0x377803[_0x13635e(0x109)]('Access-Control-Allow-Origin','*'),_0x377803[_0x13635e(0x109)](_0x13635e(0xf6),_0x13635e(0x118)),_0x377803[_0x13635e(0x109)]('Access-Control-Allow-Headers',_0x13635e(0xee));if(_0x4e4d08['method']===_0x13635e(0xdf)){_0x377803['status'](0xc8)[_0x13635e(0x115)]();return;}const _0x3fd8a2=_0x4e4d08['headers'][_0x13635e(0x10c)]||_0x4e4d08[_0x13635e(0xf7)]['remoteAddress'];if(!checkRateLimit(_0x3fd8a2))return _0x377803['status'](0x1ad)[_0x13635e(0x114)]({'success':![],'error':_0x13635e(0x10e)});try{if(_0x4e4d08[_0x13635e(0x119)]===_0x13635e(0xf4)){const {data:_0x3b571c,error:_0x478735}=await supabase['from']('memos')[_0x13635e(0x10b)]('*')['order'](_0x13635e(0xe3),{'ascending':![]});if(_0x478735)throw _0x478735;return _0x377803[_0x13635e(0x113)](0xc8)['json']({'success':!![],'data':_0x3b571c||[]});}if(_0x4e4d08['method']===_0x13635e(0x110)){const {content:_0x2600b4}=_0x4e4d08[_0x13635e(0xf1)],_0x27c523=validateContent(_0x2600b4);if(!_0x27c523['valid'])return _0x377803[_0x13635e(0x113)](0x190)['json']({'success':![],'error':_0x27c523[_0x13635e(0x107)]});const {count:_0x497b8c}=await supabase[_0x13635e(0x105)]('memos')[_0x13635e(0x10b)]('*',{'count':_0x13635e(0x10f),'head':!![]});if(_0x497b8c>=0x7)return _0x377803[_0x13635e(0x113)](0x190)[_0x13635e(0x114)]({'success':![],'error':_0x13635e(0xfc)});const {data:_0x3598bd,error:_0x4e11d3}=await supabase['from'](_0x13635e(0xe4))['insert']([{'content':_0x2600b4,'created_at':new Date()[_0x13635e(0xfb)](),'updated_at':new Date()['toISOString']()}])[_0x13635e(0x10b)]();if(_0x4e11d3)throw _0x4e11d3;return _0x377803['status'](0xc8)[_0x13635e(0x114)]({'success':!![],'data':_0x3598bd[0x0]});}if(_0x4e4d08[_0x13635e(0x119)]==='PUT'){const {id:_0x5528ee,content:_0xd8967a}=_0x4e4d08['body'],_0x270ccb=validateContent(_0xd8967a);if(!_0x270ccb[_0x13635e(0xf8)])return _0x377803['status'](0x190)['json']({'success':![],'error':_0x270ccb[_0x13635e(0x107)]});const {data:_0xe4cdd4,error:_0x205742}=await supabase[_0x13635e(0x105)]('memos')['update']({'content':_0xd8967a,'updated_at':new Date()['toISOString']()})['eq']('id',_0x5528ee)[_0x13635e(0x10b)]();if(_0x205742)throw _0x205742;return _0x377803['status'](0xc8)[_0x13635e(0x114)]({'success':!![],'data':_0xe4cdd4[0x0]});}if(_0x4e4d08[_0x13635e(0x119)]==='DELETE'){const {id:_0x1fbd8b}=_0x4e4d08[_0x13635e(0xf1)],{error:_0x587977}=await supabase['from'](_0x13635e(0xe4))[_0x13635e(0xec)]()['eq']('id',_0x1fbd8b);if(_0x587977)throw _0x587977;return _0x377803['status'](0xc8)['json']({'success':!![]});}return _0x377803['status'](0x195)[_0x13635e(0x114)]({'success':![],'error':'Method\x20not\x20allowed'});}catch(_0xf99434){return console[_0x13635e(0x107)](_0x13635e(0xf5),_0xf99434),_0x377803['status'](0x1f4)[_0x13635e(0x114)]({'success':![],'error':_0x13635e(0xea)});}}function _0x25d8(){const _0x4c263c=['개못남','쪽팔려','string','또라이','Internal\x20server\x20error','742042Lusnqg','delete','정신병','Content-Type','length','7cFQZYC','body','push','1334470TvKgPx','GET','API\x20Error:','Access-Control-Allow-Methods','connection','valid','207ZibPEv','개쓰레기','toISOString','MEMO_LIMIT_REACHED','test','has','https://bztetglagnmfgkznheeg.supabase.co','187oKJEEQ','445422ewpbUn','714644ZGiQWB','20naIaCh','CONTENT_TOO_LONG','from','INVALID_CONTENT','error','SUPABASE_ANON_KEY','setHeader','includes','select','x-forwarded-for','1868436AWnCjM','Too\x20many\x20requests','exact','POST','NUMBERS_NOT_ALLOWED','2702262KxvZzn','status','json','end','toLowerCase','BANNED_WORDS','GET,POST,PUT,DELETE,OPTIONS','method','replace','쓰레기','멍청이','OPTIONS','33928beYmhN','get','filter','created_at','memos','개구림'];_0x25d8=function(){return _0x4c263c;};return _0x25d8();}
+// Vercel Serverless Function
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.SUPABASE_URL || 'https://bztetglagnmfgkznheeg.supabase.co';
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dGV0Z2xhZ25tZmdrem5oZWVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3NTU5NzcsImV4cCI6MjA1MjMzMTk3N30.Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq';
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// Rate limiting (간단한 구현)
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW = 60000;
+const MAX_REQUESTS = 30;
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  
+  if (!rateLimitMap.has(ip)) {
+    rateLimitMap.set(ip, []);
+  }
+  
+  const requests = rateLimitMap.get(ip).filter(time => now - time < RATE_LIMIT_WINDOW);
+  
+  if (requests.length >= MAX_REQUESTS) {
+    return false;
+  }
+  
+  requests.push(now);
+  rateLimitMap.set(ip, requests);
+  return true;
+}
+
+// 금칙어 리스트
+const bannedWords = [
+  "바보", "멍청이", "병신", "미친", "개새끼", "씨발", "좆", "존나", 
+  "개놈", "년", "놈", "죽어", "꺼져", "닥쳐", "시발", "개자식",
+  "새끼", "븅신", "또라이", "정신병", "장애", "개빡", "개쓰레기",
+  "쓰레기", "쪽팔려", "한심", "개못생김", "추남", "추녀", "돼지",
+  "뚱보", "개뚱", "개못남", "개못해", "개구림", "개더러워"
+];
+
+function validateContent(content) {
+  if (!content || typeof content !== 'string') {
+    return { valid: false, error: 'INVALID_CONTENT' };
+  }
+  
+  if (content.length > 500) {
+    return { valid: false, error: 'CONTENT_TOO_LONG' };
+  }
+  
+  const normalizedContent = content
+    .toLowerCase()
+    .replace(/[\s\-_.,!?]/g, '')
+    .replace(/[ㄱ-ㅎㅏ-ㅣ]/g, '');
+  
+  for (const word of bannedWords) {
+    const normalizedWord = word.toLowerCase().replace(/[\s\-_.,!?]/g, '');
+    if (normalizedContent.includes(normalizedWord)) {
+      return { valid: false, error: 'BANNED_WORDS' };
+    }
+  }
+  
+  if (/\d/.test(content)) {
+    return { valid: false, error: 'NUMBERS_NOT_ALLOWED' };
+  }
+  
+  return { valid: true };
+}
+
+export default async function handler(req, res) {
+  // CORS 설정
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  // Rate limiting
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  if (!checkRateLimit(ip)) {
+    return res.status(429).json({ success: false, error: 'Too many requests' });
+  }
+
+  try {
+    // GET: 메모 목록 조회
+    if (req.method === 'GET') {
+      const { data, error } = await supabase
+        .from('memos')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      return res.status(200).json({ success: true, data: data || [] });
+    }
+
+    // POST: 메모 추가
+    if (req.method === 'POST') {
+      const { content } = req.body;
+      
+      const validation = validateContent(content);
+      if (!validation.valid) {
+        return res.status(400).json({ success: false, error: validation.error });
+      }
+      
+      const { count } = await supabase
+        .from('memos')
+        .select('*', { count: 'exact', head: true });
+      
+      if (count >= 7) {
+        return res.status(400).json({ success: false, error: 'MEMO_LIMIT_REACHED' });
+      }
+      
+      const { data, error } = await supabase
+        .from('memos')
+        .insert([{
+          content: content,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }])
+        .select();
+
+      if (error) throw error;
+
+      return res.status(200).json({ success: true, data: data[0] });
+    }
+
+    // PUT: 메모 수정
+    if (req.method === 'PUT') {
+      const { id, content } = req.body;
+      
+      const validation = validateContent(content);
+      if (!validation.valid) {
+        return res.status(400).json({ success: false, error: validation.error });
+      }
+      
+      const { data, error } = await supabase
+        .from('memos')
+        .update({
+          content: content,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id)
+        .select();
+
+      if (error) throw error;
+
+      return res.status(200).json({ success: true, data: data[0] });
+    }
+
+    // DELETE: 메모 삭제
+    if (req.method === 'DELETE') {
+      const { id } = req.body;
+      
+      const { error } = await supabase
+        .from('memos')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      return res.status(200).json({ success: true });
+    }
+
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
+
+  } catch (error) {
+    console.error('API Error:', error);
+    return res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+}

@@ -1,1 +1,523 @@
-function _0x1c28(_0x157e51,_0x1925b7){const _0x3d523c=_0x3d52();return _0x1c28=function(_0x1c281a,_0x4fb17f){_0x1c281a=_0x1c281a-0x1b9;let _0x3a215f=_0x3d523c[_0x1c281a];return _0x3a215f;},_0x1c28(_0x157e51,_0x1925b7);}const _0x205be5=_0x1c28;(function(_0x511da4,_0x2e4dd1){const _0x1501f2=_0x1c28,_0x23c6c2=_0x511da4();while(!![]){try{const _0x9a3706=parseInt(_0x1501f2(0x204))/0x1*(parseInt(_0x1501f2(0x1c9))/0x2)+parseInt(_0x1501f2(0x1fd))/0x3+-parseInt(_0x1501f2(0x1fb))/0x4+-parseInt(_0x1501f2(0x1e9))/0x5+-parseInt(_0x1501f2(0x1bb))/0x6*(-parseInt(_0x1501f2(0x22f))/0x7)+-parseInt(_0x1501f2(0x22a))/0x8*(parseInt(_0x1501f2(0x21e))/0x9)+-parseInt(_0x1501f2(0x1d1))/0xa*(parseInt(_0x1501f2(0x1ed))/0xb);if(_0x9a3706===_0x2e4dd1)break;else _0x23c6c2['push'](_0x23c6c2['shift']());}catch(_0x249b05){_0x23c6c2['push'](_0x23c6c2['shift']());}}}(_0x3d52,0xbeece));function _0x3d52(){const _0x4ea9d8=['innerHTML','style','true','<i\x20class=\x22fas\x20fa-plus\x22></i>\x20','addMemo','memos','body','memoContent','copy-btn','showNotification','209875PkidKg','target','info','value','12193577DlvBOP','showInputError','createElement','updateMemo','bindEvents','#f39c12','disabled','getNotificationColor','currentEditId','animate-slide-out-right','notification\x20notification-','success','memoList','<i\x20class=\x22fas\x20fa-save\x22></i>\x20','764268rizaPx','\x22></i>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span>','4014966OebmJh','memoCount','복사\x20실패:','length','tooltipCopy','char-count-danger','renderMemo','13apCkfw','광고가\x20숨겨짐','log','.ad-title','preventDefault','warning','adLink','check-circle','-999999px','clipboard','updateUI','execCommand','getNotificationIcon','input','adCloseBtn','memo-count-limit','메모\x20추가\x20오류:','charCount','notifyMemoNotFound','emptyState','info-circle','copyMemoContent','unshift','메모\x20삭제\x20오류:','fixed','메모\x20로드\x20중\x20오류\x20발생:','30546HbmTZG','updateCharCount','Error','validateAndCleanInput','#3498db','data-id','exclamation-triangle','getElementById','textContent','notifyMemoAdded','is-hidden','getDescription','2840lFmNbW','광고\x20섹션을\x20찾을\x20수\x20없습니다.','hideAd\x20메서드\x20호출됨','Content\x20is\x20too\x20long\x20(max\x20500\x20characters)','</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20','19733qSqKat','error','filter','#e74c3c','toISOString','로컬\x20스토리지에\x20광고\x20숨김\x20상태\x20저장됨','\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<i\x20class=\x22fas\x20fa-copy\x22></i>\x20','beforeunload','i18n','scrollIntoView','1260bSatCm','supabase','classList','delete-btn','shiftKey','title','add','closest','find','appendChild','광고\x20섹션\x20요소:','div','getTitle','notifyContentRequired','215098BMyptI','deleteMemo','notifyMemoCopied','addEventListener','querySelector','memo-limit-reached','is-visible','className','10VaNloH','message','parentNode','addMemoBtn','times-circle','getItem','getAttribute','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<i\x20class=\x22fas\x20fa-','delete','char-count-warning','smooth','map','remove','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22memo-content\x22>'];_0x3d52=function(){return _0x4ea9d8;};return _0x3d52();}class MemoApp{constructor(){const _0x458a57=_0x1c28;this[_0x458a57(0x1e4)]=[],this[_0x458a57(0x1f5)]=null,this[_0x458a57(0x1bc)]=null,this['init']();}async['init'](){const _0x4eb349=_0x1c28;await this['loadMemos'](),this[_0x4eb349(0x1f1)](),this['updateUI'](),this['setupDefaultAd']();}['bindEvents'](){const _0x2d3fd3=_0x1c28;document[_0x2d3fd3(0x225)](_0x2d3fd3(0x1d4))['addEventListener']('click',()=>{this['addMemo']();}),document[_0x2d3fd3(0x225)]('memoContent')['addEventListener']('keydown',_0x5613f6=>{const _0x20dff3=_0x2d3fd3;_0x5613f6['key']==='Enter'&&!_0x5613f6[_0x20dff3(0x1bf)]&&(_0x5613f6['preventDefault'](),this[_0x20dff3(0x1e3)]());}),document['getElementById'](_0x2d3fd3(0x1e6))['addEventListener'](_0x2d3fd3(0x211),_0x210da5=>{const _0x30bdca=_0x2d3fd3;this['updateCharCount'](_0x210da5[_0x30bdca(0x1ea)][_0x30bdca(0x1ec)]),this[_0x30bdca(0x221)](_0x210da5['target'],_0x30bdca(0x1e6));});const _0x34ebc3=document['getElementById'](_0x2d3fd3(0x212));_0x34ebc3?_0x34ebc3['addEventListener']('click',_0x2c7fb7=>{const _0x90e281=_0x2d3fd3;_0x2c7fb7[_0x90e281(0x208)](),this['hideAd']();}):console['error']('광고\x20닫기\x20버튼을\x20찾을\x20수\x20없습니다.');this['updateCharCount']('');const _0x556a05=document[_0x2d3fd3(0x225)](_0x2d3fd3(0x1f9));_0x556a05&&_0x556a05[_0x2d3fd3(0x1cc)]('click',_0x2000b1=>{const _0x39ba3e=_0x2d3fd3,_0x27a90c=_0x2000b1[_0x39ba3e(0x1ea)][_0x39ba3e(0x1c2)]('button');if(!_0x27a90c)return;const _0x2e533b=_0x27a90c['closest']('.memo-item');if(!_0x2e533b)return;const _0x409285=_0x2e533b[_0x39ba3e(0x1d7)](_0x39ba3e(0x223)),_0x322c12=Number(_0x409285);if(Number['isNaN'](_0x322c12))return;if(_0x27a90c[_0x39ba3e(0x1bd)]['contains'](_0x39ba3e(0x1be)))this['deleteMemo'](_0x322c12);else _0x27a90c[_0x39ba3e(0x1bd)]['contains'](_0x39ba3e(0x1e7))&&this[_0x39ba3e(0x219)](_0x322c12);});}async['addMemo'](){const _0x5530ed=_0x1c28,_0x1e1208=document['getElementById']('memoContent'),_0x45fbd7=_0x1e1208[_0x5530ed(0x1ec)]['trim']();if(!_0x45fbd7){this['showNotification'](window[_0x5530ed(0x1b9)]['t'](_0x5530ed(0x1c8)),'warning');return;}const _0x398bff=await validateWithServer(_0x45fbd7);if(!_0x398bff['isValid']){this[_0x5530ed(0x1e8)](_0x398bff['message'],_0x5530ed(0x230));return;}if(this[_0x5530ed(0x1f5)]!==null)await this[_0x5530ed(0x1f0)](this[_0x5530ed(0x1f5)],_0x45fbd7),this['currentEditId']=null,document['getElementById'](_0x5530ed(0x1d4))['innerHTML']=_0x5530ed(0x1e2)+window[_0x5530ed(0x1b9)]['t']('addMemo');else{if(this[_0x5530ed(0x1e4)]['length']>=0x7){this[_0x5530ed(0x1e8)](window['i18n']['t']('notifyMemoLimit'),'warning');return;}const _0x4236c6={'content':_0x45fbd7,'created_at':new Date()[_0x5530ed(0x233)](),'updated_at':new Date()[_0x5530ed(0x233)]()};try{const {data:_0x56c6e2,error:_0x49eacf}=await API[_0x5530ed(0x1e3)](_0x45fbd7);if(_0x49eacf)throw _0x49eacf;_0x56c6e2&&(this['memos'][_0x5530ed(0x21a)](_0x56c6e2),this[_0x5530ed(0x1e8)](window['i18n']['t'](_0x5530ed(0x227)),'success'));}catch(_0x506e30){console[_0x5530ed(0x230)](_0x5530ed(0x214),_0x506e30),this[_0x5530ed(0x1e8)](window['i18n']['t']('notifyAddError',{'error':_0x506e30['message']}),'error');return;}}_0x1e1208[_0x5530ed(0x1ec)]='',this['updateCharCount'](''),_0x1e1208['focus'](),this[_0x5530ed(0x20e)]();}async['updateMemo'](_0x10ed5c,_0x4de0ac){const _0x191cce=_0x1c28,_0x534f39=await validateWithServer(_0x4de0ac);if(!_0x534f39['isValid']){this[_0x191cce(0x1e8)](_0x534f39[_0x191cce(0x1d2)],'error');return;}try{const {data:_0x12e27c,error:_0x1ab71b}=await API['updateMemo'](_0x10ed5c,_0x4de0ac);if(_0x1ab71b)throw _0x1ab71b;const _0x480e60=this['memos']['findIndex'](_0x226176=>_0x226176['id']===_0x10ed5c);_0x480e60!==-0x1&&_0x12e27c&&(this[_0x191cce(0x1e4)][_0x480e60]=_0x12e27c),this[_0x191cce(0x1e8)](window['i18n']['t']('notifyMemoUpdated'),_0x191cce(0x1f8));}catch(_0x17b177){console[_0x191cce(0x230)]('메모\x20수정\x20오류:',_0x17b177),this[_0x191cce(0x1e8)](window[_0x191cce(0x1b9)]['t']('notifyUpdateError'),_0x191cce(0x230));}}async[_0x205be5(0x1ca)](_0x4777ca){const _0x7c5039=_0x205be5;if(confirm(window['i18n']['t']('confirmDelete')))try{const {error:_0x237130}=await API['deleteMemo'](_0x4777ca);if(_0x237130)throw _0x237130;this['memos']=this[_0x7c5039(0x1e4)][_0x7c5039(0x231)](_0xcf6543=>_0xcf6543['id']!==_0x4777ca),this[_0x7c5039(0x20e)](),this[_0x7c5039(0x1e8)](window[_0x7c5039(0x1b9)]['t']('notifyMemoDeleted'),'info');}catch(_0x4b8579){console['error'](_0x7c5039(0x21b),_0x4b8579),this['showNotification'](window[_0x7c5039(0x1b9)]['t']('notifyDeleteError'),_0x7c5039(0x230));}}['editMemo'](_0x3234ff){const _0x5ae95b=_0x205be5,_0x2e7a9d=this['memos'][_0x5ae95b(0x1c3)](_0x6e5ed9=>_0x6e5ed9['id']===_0x3234ff);_0x2e7a9d&&(document['getElementById'](_0x5ae95b(0x1e6))['value']=_0x2e7a9d['content'],document[_0x5ae95b(0x225)](_0x5ae95b(0x1d4))[_0x5ae95b(0x1df)]=_0x5ae95b(0x1fa)+window[_0x5ae95b(0x1b9)]['t'](_0x5ae95b(0x1f0)),this['currentEditId']=_0x3234ff,this['updateCharCount'](_0x2e7a9d['content']),document['getElementById'](_0x5ae95b(0x1e6))[_0x5ae95b(0x1ba)]({'behavior':_0x5ae95b(0x1db)}));}async['copyMemoContent'](_0x742ffc){const _0xeeb37f=_0x205be5,_0x4f7831=this[_0xeeb37f(0x1e4)]['find'](_0x4ba062=>_0x4ba062['id']===_0x742ffc);if(!_0x4f7831){this[_0xeeb37f(0x1e8)](window['i18n']['t'](_0xeeb37f(0x216)),_0xeeb37f(0x230));return;}try{await navigator[_0xeeb37f(0x20d)]['writeText'](_0x4f7831['content']),this['showNotification'](window[_0xeeb37f(0x1b9)]['t'](_0xeeb37f(0x1cb)),_0xeeb37f(0x1f8));}catch(_0x1552e0){try{const _0x4048f4=document['createElement']('textarea');_0x4048f4[_0xeeb37f(0x1ec)]=_0x4f7831['content'],_0x4048f4['style']['position']=_0xeeb37f(0x21c),_0x4048f4[_0xeeb37f(0x1e0)]['left']=_0xeeb37f(0x20c),_0x4048f4[_0xeeb37f(0x1e0)]['top']='-999999px',document['body']['appendChild'](_0x4048f4),_0x4048f4['focus'](),_0x4048f4['select'](),document[_0xeeb37f(0x20f)]('copy'),document[_0xeeb37f(0x1e5)]['removeChild'](_0x4048f4),this[_0xeeb37f(0x1e8)](window[_0xeeb37f(0x1b9)]['t'](_0xeeb37f(0x1cb)),'success');}catch(_0x1caa0a){console['error'](_0xeeb37f(0x1ff),_0x1caa0a),this[_0xeeb37f(0x1e8)](window[_0xeeb37f(0x1b9)]['t']('notifyCopyFailed'),_0xeeb37f(0x230));}}}['validateAndCleanInput'](_0x2f7809,_0x188c16){const _0x175d75=_0x205be5,_0x3e1c73=_0x2f7809[_0x175d75(0x1ec)];_0x3e1c73['length']>0x1f4?this['showInputError'](_0x188c16,_0x175d75(0x22d)):this['clearInputError'](_0x188c16);}[_0x205be5(0x1ee)](_0x2c1497,_0xf1dccd){const _0xee4295=_0x205be5,_0x3edd2e=document['getElementById'](_0x2c1497),_0x322fb3=document[_0xee4295(0x225)](_0x2c1497+'Error');_0x322fb3&&_0x322fb3['remove']();const _0x540615=document['createElement'](_0xee4295(0x1c6));_0x540615['id']=_0x2c1497+_0xee4295(0x220),_0x540615['className']='input-error',_0x540615[_0xee4295(0x226)]=_0xf1dccd,_0x3edd2e[_0xee4295(0x1bd)][_0xee4295(0x1c1)]('input-has-error'),_0x3edd2e['parentNode']['insertBefore'](_0x540615,_0x3edd2e['nextSibling']);}['clearInputError'](_0x3b6cd1){const _0x5e31da=_0x205be5,_0x34a192=document[_0x5e31da(0x225)](_0x3b6cd1),_0x52ceac=document[_0x5e31da(0x225)](_0x3b6cd1+'Error');_0x52ceac&&_0x52ceac[_0x5e31da(0x1dd)](),_0x34a192['classList']['remove']('input-has-error');}[_0x205be5(0x21f)](_0xf52f5c){const _0x517f3d=_0x205be5,_0x245089=document['getElementById']('charCount'),_0x4256cc=_0xf52f5c['length'];_0x245089['textContent']=window['i18n']['t'](_0x517f3d(0x215),{'count':_0x4256cc}),_0x245089[_0x517f3d(0x1bd)]['remove'](_0x517f3d(0x1da),_0x517f3d(0x202));if(_0x4256cc>0x1c2)_0x245089['classList']['add']('char-count-danger');else _0x4256cc>0x190&&_0x245089[_0x517f3d(0x1bd)][_0x517f3d(0x1c1)]('char-count-warning');}[_0x205be5(0x203)](_0x31988a){const _0x31cd52=_0x205be5;return'\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22memo-item\x22\x20data-id=\x22'+_0x31988a['id']+'\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22memo-header\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22action-btn\x20copy-btn\x22\x20title=\x22'+window['i18n']['t'](_0x31cd52(0x201))+_0x31cd52(0x235)+window[_0x31cd52(0x1b9)]['t']('copy')+_0x31cd52(0x1de)+this['escapeHtml'](_0x31988a['content'])+'</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22memo-actions\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22action-btn\x20delete-btn\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<i\x20class=\x22fas\x20fa-trash\x22></i>\x20'+window['i18n']['t'](_0x31cd52(0x1d9))+'\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20';}['escapeHtml'](_0x5a3096){const _0x53685b=_0x205be5,_0x2eb309=document[_0x53685b(0x1ef)](_0x53685b(0x1c6));return _0x2eb309[_0x53685b(0x226)]=_0x5a3096,_0x2eb309[_0x53685b(0x1df)];}[_0x205be5(0x20e)](){const _0x2f6c05=_0x205be5,_0x170884=document['getElementById'](_0x2f6c05(0x1f9)),_0xe35b2d=document[_0x2f6c05(0x225)](_0x2f6c05(0x217)),_0xf8e901=document[_0x2f6c05(0x225)](_0x2f6c05(0x1fe)),_0x1f9809=document[_0x2f6c05(0x225)](_0x2f6c05(0x1d4));this[_0x2f6c05(0x1e4)]['length']===0x0?(_0x170884[_0x2f6c05(0x1bd)]['add'](_0x2f6c05(0x228)),_0xe35b2d['classList'][_0x2f6c05(0x1c1)]('is-visible'),_0xe35b2d[_0x2f6c05(0x1bd)]['remove'](_0x2f6c05(0x228)),_0xf8e901['textContent']=window['i18n']['t'](_0x2f6c05(0x1fe),{'count':0x0})):(_0x170884[_0x2f6c05(0x1bd)]['remove']('is-hidden'),_0xe35b2d['classList']['remove']('is-visible'),_0xe35b2d[_0x2f6c05(0x1bd)][_0x2f6c05(0x1c1)](_0x2f6c05(0x228)),_0xf8e901['textContent']=window[_0x2f6c05(0x1b9)]['t']('memoCount',{'count':this['memos'][_0x2f6c05(0x200)]}),_0x170884['innerHTML']=this['memos'][_0x2f6c05(0x1dc)](_0x4f7b0f=>this[_0x2f6c05(0x203)](_0x4f7b0f))['join'](''));if(this['memos']['length']>=0x7&&this[_0x2f6c05(0x1f5)]===null)_0x1f9809[_0x2f6c05(0x1f3)]=!![],_0x1f9809['title']=window['i18n']['t']('tooltipMemoLimit'),_0x1f9809[_0x2f6c05(0x1bd)][_0x2f6c05(0x1c1)]('memo-limit-reached'),_0xf8e901['classList']['add'](_0x2f6c05(0x213));else this[_0x2f6c05(0x1e4)][_0x2f6c05(0x200)]===0x6&&this[_0x2f6c05(0x1f5)]===null?(_0x1f9809[_0x2f6c05(0x1f3)]=![],_0x1f9809['title']=window['i18n']['t']('tooltipLastMemo'),_0x1f9809[_0x2f6c05(0x1bd)]['remove'](_0x2f6c05(0x1ce)),_0xf8e901['classList'][_0x2f6c05(0x1c1)](_0x2f6c05(0x213),'warning')):(_0x1f9809['disabled']=![],_0x1f9809[_0x2f6c05(0x1c0)]='',_0x1f9809['classList']['remove']('memo-limit-reached'),_0xf8e901['classList'][_0x2f6c05(0x1dd)](_0x2f6c05(0x213),_0x2f6c05(0x209)));}async['loadMemos'](){const _0x1fc183=_0x205be5;try{const {data:_0x29bfa1,error:_0x41cccf}=await API['getMemos']();if(_0x41cccf)throw _0x41cccf;this[_0x1fc183(0x1e4)]=_0x29bfa1||[];}catch(_0x4f0240){console['error'](_0x1fc183(0x21d),_0x4f0240),this['showNotification'](window[_0x1fc183(0x1b9)]['t']('notifyLoadError'),'error'),this[_0x1fc183(0x1e4)]=[];}}['showNotification'](_0x371947,_0x344ebb=_0x205be5(0x1eb)){const _0x5ad58=_0x205be5,_0x4d4206=document[_0x5ad58(0x1cd)]('.notification');_0x4d4206&&_0x4d4206[_0x5ad58(0x1dd)]();const _0x3c82ba=document[_0x5ad58(0x1ef)]('div');_0x3c82ba[_0x5ad58(0x1d0)]=_0x5ad58(0x1f7)+_0x344ebb+'\x20animate-slide-in-right',_0x3c82ba[_0x5ad58(0x1df)]=_0x5ad58(0x1d8)+this['getNotificationIcon'](_0x344ebb)+_0x5ad58(0x1fc)+_0x371947+_0x5ad58(0x22e),document[_0x5ad58(0x1e5)][_0x5ad58(0x1c4)](_0x3c82ba),setTimeout(()=>{const _0x2ca5a7=_0x5ad58;_0x3c82ba['classList']['remove']('animate-slide-in-right'),_0x3c82ba['classList']['add'](_0x2ca5a7(0x1f6)),setTimeout(()=>{const _0x3dce32=_0x2ca5a7;_0x3c82ba[_0x3dce32(0x1d3)]&&_0x3c82ba['remove']();},0x12c);},0xbb8);}[_0x205be5(0x210)](_0x390527){const _0x22b36d=_0x205be5,_0x44ba4b={'success':_0x22b36d(0x20b),'warning':_0x22b36d(0x224),'error':_0x22b36d(0x1d5),'info':_0x22b36d(0x218)};return _0x44ba4b[_0x390527]||_0x22b36d(0x218);}[_0x205be5(0x1f4)](_0x2f3263){const _0x495b1f=_0x205be5,_0x42789b={'success':'#27ae60','warning':_0x495b1f(0x1f2),'error':_0x495b1f(0x232),'info':_0x495b1f(0x222)};return _0x42789b[_0x2f3263]||_0x495b1f(0x222);}['updateAd'](_0x4974c5,_0x44087d,_0x62c733){const _0x1b5981=_0x205be5,_0x25e6d5=document[_0x1b5981(0x1cd)](_0x1b5981(0x207)),_0x5c8c58=document['querySelector']('.ad-description'),_0x9c99ec=document['getElementById'](_0x1b5981(0x20a));if(_0x25e6d5)_0x25e6d5[_0x1b5981(0x226)]=_0x4974c5;if(_0x5c8c58)_0x5c8c58[_0x1b5981(0x226)]=_0x44087d;if(_0x9c99ec)_0x9c99ec['href']=_0x62c733;this['showAd']();}['showAd'](){const _0x56fb8c=_0x205be5,_0x5300f7=document[_0x56fb8c(0x225)]('adSection');_0x5300f7&&(_0x5300f7['classList']['add'](_0x56fb8c(0x1cf),'animate-slide-in-down'),_0x5300f7['classList']['remove']('is-hidden'));}['hideAd'](){const _0x1d94be=_0x205be5;console['log'](_0x1d94be(0x22c));const _0xb0d1b=document['getElementById']('adSection');console[_0x1d94be(0x206)](_0x1d94be(0x1c5),_0xb0d1b),_0xb0d1b?(localStorage['setItem']('hiddenAds',_0x1d94be(0x1e1)),console['log'](_0x1d94be(0x234)),_0xb0d1b['classList']['remove']('is-visible'),_0xb0d1b[_0x1d94be(0x1bd)][_0x1d94be(0x1c1)](_0x1d94be(0x228)),console['log'](_0x1d94be(0x205)),this['showNotification'](window['i18n']['t']('notifyAdHidden'),'success')):console[_0x1d94be(0x230)](_0x1d94be(0x22b));}['setupDefaultAd'](){const _0x149e9e=_0x205be5,_0x129e22=localStorage[_0x149e9e(0x1d6)]('hiddenAds');if(_0x129e22==='true')return;window['AD_CONFIG']&&window['AD_CONFIG']['enabled']&&this['updateAd'](window['AD_CONFIG'][_0x149e9e(0x1c7)](),window['AD_CONFIG'][_0x149e9e(0x229)](),window['AD_CONFIG']['link']);}}let memoApp;document[_0x205be5(0x1cc)]('DOMContentLoaded',()=>{memoApp=new MemoApp();}),window[_0x205be5(0x1cc)](_0x205be5(0x236),()=>{const _0x109156=_0x205be5;memoApp&&memoApp[_0x109156(0x1f5)]!==null&&(memoApp[_0x109156(0x1f5)]=null);});
+class MemoApp {
+    constructor() {
+        this.memos = [];
+        this.currentEditId = null;
+        this.supabase = null;
+        this.init();
+    }
+
+    async init() {
+        // 서버 API 사용 (Supabase 직접 호출 제거)
+        await this.loadMemos();
+        this.bindEvents();
+        this.updateUI();
+        
+        // 기본 광고 설정
+        this.setupDefaultAd();
+    }
+
+    bindEvents() {
+        // 메모 추가 버튼
+        document.getElementById('addMemoBtn').addEventListener('click', () => {
+            this.addMemo();
+        });
+
+        // Enter 키로 메모 저장, Shift+Enter로 줄바꿈
+        document.getElementById('memoContent').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                this.addMemo();
+            }
+            // Shift+Enter는 기본 동작(줄바꿈)을 허용
+        });
+
+        // 글자 수 카운트 및 실시간 입력 검증
+        document.getElementById('memoContent').addEventListener('input', (e) => {
+            this.updateCharCount(e.target.value);
+            this.validateAndCleanInput(e.target, 'memoContent');
+        });
+
+        // 광고 닫기 버튼
+        const adCloseBtn = document.getElementById('adCloseBtn');
+        if (adCloseBtn) {
+            adCloseBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.hideAd();
+            });
+        } else {
+            console.error('광고 닫기 버튼을 찾을 수 없습니다.');
+        }
+
+        // 초기 글자 수 표시
+        this.updateCharCount('');
+
+        // 메모 리스트 클릭 이벤트 위임 (inline onclick 제거)
+        const memoListEl = document.getElementById('memoList');
+        if (memoListEl) {
+            memoListEl.addEventListener('click', (event) => {
+                const targetButton = event.target.closest('button');
+                if (!targetButton) return;
+
+                const memoItem = targetButton.closest('.memo-item');
+                if (!memoItem) return;
+
+                const idAttr = memoItem.getAttribute('data-id');
+                const memoId = Number(idAttr);
+                if (Number.isNaN(memoId)) return;
+
+                if (targetButton.classList.contains('delete-btn')) {
+                    this.deleteMemo(memoId);
+                } else if (targetButton.classList.contains('copy-btn')) {
+                    this.copyMemoContent(memoId);
+                }
+            });
+        }
+    }
+
+    async addMemo() {
+        const contentInput = document.getElementById('memoContent');
+        
+        const content = contentInput.value.trim();
+
+        if (!content) {
+            this.showNotification(window.i18n.t('notifyContentRequired'), 'warning');
+            return;
+        }
+
+        // 서버 측 검증
+        const validation = await validateWithServer(content);
+        if (!validation.isValid) {
+            this.showNotification(validation.message, 'error');
+            return;
+        }
+
+        if (this.currentEditId !== null) {
+            // 편집 모드
+            await this.updateMemo(this.currentEditId, content);
+            this.currentEditId = null;
+            document.getElementById('addMemoBtn').innerHTML = `<i class="fas fa-plus"></i> ${window.i18n.t('addMemo')}`;
+        } else {
+            // 새 메모 추가 - 개수 제한 확인
+            if (this.memos.length >= 7) {
+                this.showNotification(window.i18n.t('notifyMemoLimit'), 'warning');
+                return;
+            }
+
+            const memo = {
+                content: content,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            };
+
+            try {
+                // 서버 API 호출
+                const { data, error } = await API.addMemo(content);
+
+                if (error) {
+                    throw error;
+                }
+
+                // 새로 생성된 메모를 배열에 추가
+                if (data) {
+                    this.memos.unshift(data);
+                    this.showNotification(window.i18n.t('notifyMemoAdded'), 'success');
+                }
+            } catch (error) {
+                console.error('메모 추가 오류:', error);
+                this.showNotification(window.i18n.t('notifyAddError', { error: error.message }), 'error');
+                return;
+            }
+        }
+
+        // 입력 필드 초기화
+        contentInput.value = '';
+        this.updateCharCount('');
+        contentInput.focus();
+        
+        this.updateUI();
+    }
+
+    async updateMemo(id, content) {
+        // 서버 측 검증
+        const validation = await validateWithServer(content);
+        if (!validation.isValid) {
+            this.showNotification(validation.message, 'error');
+            return;
+        }
+
+        try {
+            // 서버 API 호출
+            const { data, error } = await API.updateMemo(id, content);
+
+            if (error) throw error;
+
+            // 로컬 배열 업데이트
+            const memoIndex = this.memos.findIndex(memo => memo.id === id);
+            if (memoIndex !== -1 && data) {
+                this.memos[memoIndex] = data;
+            }
+
+            this.showNotification(window.i18n.t('notifyMemoUpdated'), 'success');
+        } catch (error) {
+            console.error('메모 수정 오류:', error);
+            this.showNotification(window.i18n.t('notifyUpdateError'), 'error');
+        }
+    }
+
+    async deleteMemo(id) {
+        // 삭제권 확인
+        if (!window.deleteCreditsManager.hasCredits()) {
+            // 광고 모달 표시
+            const watched = await window.adModal.show();
+            if (!watched) {
+                return; // 광고를 보지 않으면 삭제 취소
+            }
+        }
+
+        // 삭제 확인
+        if (confirm(window.i18n.t('confirmDelete'))) {
+            // 삭제권 사용
+            if (!window.deleteCreditsManager.useCredit()) {
+                this.showNotification(window.i18n.t('notifyNoCredits'), 'warning');
+                return;
+            }
+
+            try {
+                // 서버 API 호출
+                const { error } = await API.deleteMemo(id);
+
+                if (error) throw error;
+
+                // 로컬 배열에서 제거
+                this.memos = this.memos.filter(memo => memo.id !== id);
+                this.updateUI();
+                this.showNotification(window.i18n.t('notifyMemoDeleted'), 'info');
+            } catch (error) {
+                console.error('메모 삭제 오류:', error);
+                this.showNotification(window.i18n.t('notifyDeleteError'), 'error');
+                
+                // 삭제 실패 시 삭제권 복구
+                const currentCredits = window.deleteCreditsManager.getCredits();
+                window.deleteCreditsManager.setCredits(currentCredits + 1);
+            }
+        }
+    }
+
+    editMemo(id) {
+        const memo = this.memos.find(memo => memo.id === id);
+        if (memo) {
+            document.getElementById('memoContent').value = memo.content;
+            document.getElementById('addMemoBtn').innerHTML = `<i class="fas fa-save"></i> ${window.i18n.t('updateMemo')}`;
+            this.currentEditId = id;
+            this.updateCharCount(memo.content);
+            
+            // 입력 필드로 스크롤
+            document.getElementById('memoContent').scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    async copyMemoContent(id) {
+        const memo = this.memos.find(memo => memo.id === id);
+        if (!memo) {
+            this.showNotification(window.i18n.t('notifyMemoNotFound'), 'error');
+            return;
+        }
+
+        try {
+            // 클립보드 API를 사용하여 텍스트 복사
+            await navigator.clipboard.writeText(memo.content);
+            this.showNotification(window.i18n.t('notifyMemoCopied'), 'success');
+        } catch (error) {
+            // 클립보드 API가 지원되지 않는 경우 대체 방법 사용
+            try {
+                const textArea = document.createElement('textarea');
+                textArea.value = memo.content;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                this.showNotification(window.i18n.t('notifyMemoCopied'), 'success');
+            } catch (fallbackError) {
+                console.error('복사 실패:', fallbackError);
+                this.showNotification(window.i18n.t('notifyCopyFailed'), 'error');
+            }
+        }
+    }
+
+    // 실시간 입력 검증 (클라이언트 측 빠른 피드백)
+    validateAndCleanInput(inputElement, fieldType) {
+        const text = inputElement.value;
+        
+        // 길이 체크만 클라이언트에서
+        if (text.length > 500) {
+            this.showInputError(fieldType, 'Content is too long (max 500 characters)');
+        } else {
+            this.clearInputError(fieldType);
+        }
+    }
+
+    // 입력 필드 에러 표시
+    showInputError(fieldType, message) {
+        const field = document.getElementById(fieldType);
+        const errorElement = document.getElementById(`${fieldType}Error`);
+        
+        if (errorElement) {
+            errorElement.remove();
+        }
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.id = `${fieldType}Error`;
+        errorDiv.className = 'input-error';
+        errorDiv.textContent = message;
+        
+        field.classList.add('input-has-error');
+        field.parentNode.insertBefore(errorDiv, field.nextSibling);
+    }
+
+    // 입력 필드 에러 제거
+    clearInputError(fieldType) {
+        const field = document.getElementById(fieldType);
+        const errorElement = document.getElementById(`${fieldType}Error`);
+        
+        if (errorElement) {
+            errorElement.remove();
+        }
+        
+        field.classList.remove('input-has-error');
+    }
+
+    updateCharCount(content) {
+        const charCount = document.getElementById('charCount');
+        const count = content.length;
+        charCount.textContent = window.i18n.t('charCount', { count });
+        
+        // 글자 수에 따른 색상 변경 (클래스로 처리)
+        charCount.classList.remove('char-count-warning', 'char-count-danger');
+        if (count > 450) {
+            charCount.classList.add('char-count-danger');
+        } else if (count > 400) {
+            charCount.classList.add('char-count-warning');
+        }
+    }
+
+
+    renderMemo(memo) {
+        return `
+            <div class="memo-item" data-id="${memo.id}">
+                <div class="memo-header">
+                    <button class="action-btn copy-btn" title="${window.i18n.t('tooltipCopy')}">
+                        <i class="fas fa-copy"></i> ${window.i18n.t('copy')}
+                    </button>
+                </div>
+                <div class="memo-content">${this.escapeHtml(memo.content)}</div>
+                <div class="memo-actions">
+                    <button class="action-btn delete-btn">
+                        <i class="fas fa-trash"></i> ${window.i18n.t('delete')}
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    updateUI() {
+        const memoList = document.getElementById('memoList');
+        const emptyState = document.getElementById('emptyState');
+        const memoCount = document.getElementById('memoCount');
+        const addMemoBtn = document.getElementById('addMemoBtn');
+
+        if (this.memos.length === 0) {
+            memoList.classList.add('is-hidden');
+            emptyState.classList.add('is-visible');
+            emptyState.classList.remove('is-hidden');
+            memoCount.textContent = window.i18n.t('memoCount', { count: 0 });
+        } else {
+            memoList.classList.remove('is-hidden');
+            emptyState.classList.remove('is-visible');
+            emptyState.classList.add('is-hidden');
+            memoCount.textContent = window.i18n.t('memoCount', { count: this.memos.length });
+            
+            memoList.innerHTML = this.memos.map(memo => this.renderMemo(memo)).join('');
+        }
+
+        // 메모 개수에 따른 추가 버튼 상태 관리
+        if (this.memos.length >= 7 && this.currentEditId === null) {
+            // 편집 모드가 아닐 때만 버튼 비활성화
+            addMemoBtn.disabled = true;
+            addMemoBtn.title = window.i18n.t('tooltipMemoLimit');
+            addMemoBtn.classList.add('memo-limit-reached');
+            
+            // 메모 카운터에 경고 스타일 적용
+            memoCount.classList.add('memo-count-limit');
+        } else if (this.memos.length === 6 && this.currentEditId === null) {
+            // 6개일 때 경고 스타일 적용
+            addMemoBtn.disabled = false;
+            addMemoBtn.title = window.i18n.t('tooltipLastMemo');
+            addMemoBtn.classList.remove('memo-limit-reached');
+            
+            // 메모 카운터에 경고 스타일 적용
+            memoCount.classList.add('memo-count-limit', 'warning');
+        } else {
+            addMemoBtn.disabled = false;
+            addMemoBtn.title = '';
+            addMemoBtn.classList.remove('memo-limit-reached');
+            
+            // 메모 카운터에서 경고 스타일 제거
+            memoCount.classList.remove('memo-count-limit', 'warning');
+        }
+
+        // 삭제권 UI 업데이트
+        if (window.deleteCreditsManager) {
+            window.deleteCreditsManager.updateUI();
+        }
+    }
+
+    async loadMemos() {
+        try {
+            // 서버 API 호출
+            const { data, error } = await API.getMemos();
+
+            if (error) throw error;
+
+            this.memos = data || [];
+        } catch (error) {
+            console.error('메모 로드 중 오류 발생:', error);
+            this.showNotification(window.i18n.t('notifyLoadError'), 'error');
+            this.memos = [];
+        }
+    }
+
+    showNotification(message, type = 'info') {
+        // 기존 알림 제거
+        const existingNotification = document.querySelector('.notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type} animate-slide-in-right`;
+        notification.innerHTML = `
+            <i class="fas fa-${this.getNotificationIcon(type)}"></i>
+            <span>${message}</span>
+        `;
+        // 스타일과 애니메이션은 CSS 클래스로 처리
+
+        document.body.appendChild(notification);
+
+        // 3초 후 자동 제거
+        setTimeout(() => {
+            notification.classList.remove('animate-slide-in-right');
+            notification.classList.add('animate-slide-out-right');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    getNotificationIcon(type) {
+        const icons = {
+            success: 'check-circle',
+            warning: 'exclamation-triangle',
+            error: 'times-circle',
+            info: 'info-circle'
+        };
+        return icons[type] || 'info-circle';
+    }
+
+    getNotificationColor(type) {
+        const colors = {
+            success: '#27ae60',
+            warning: '#f39c12',
+            error: '#e74c3c',
+            info: '#3498db'
+        };
+        return colors[type] || '#3498db';
+    }
+
+    // 광고 관련 메서드들
+    updateAd(title, description, link) {
+        const adTitle = document.querySelector('.ad-title');
+        const adDescription = document.querySelector('.ad-description');
+        const adLink = document.getElementById('adLink');
+
+        if (adTitle) adTitle.textContent = title;
+        if (adDescription) adDescription.textContent = description;
+        if (adLink) adLink.href = link;
+
+        // 광고 섹션 표시
+        this.showAd();
+    }
+
+    showAd() {
+        const adSection = document.getElementById('adSection');
+        if (adSection) {
+            adSection.classList.add('is-visible', 'animate-slide-in-down');
+            adSection.classList.remove('is-hidden');
+        }
+    }
+
+    hideAd() {
+        console.log('hideAd 메서드 호출됨');
+        const adSection = document.getElementById('adSection');
+        console.log('광고 섹션 요소:', adSection);
+        
+        if (adSection) {
+            // 로컬 스토리지에 광고 숨김 상태 저장
+            localStorage.setItem('hiddenAds', 'true');
+            console.log('로컬 스토리지에 광고 숨김 상태 저장됨');
+            
+            // 즉시 숨기기
+            adSection.classList.remove('is-visible');
+            adSection.classList.add('is-hidden');
+            console.log('광고가 숨겨짐');
+            
+            // 성공 알림 표시
+            this.showNotification(window.i18n.t('notifyAdHidden'), 'success');
+        } else {
+            console.error('광고 섹션을 찾을 수 없습니다.');
+        }
+    }
+
+    // 광고 설정 예시 (실제 사용 시 이 부분을 수정하면 됩니다)
+    setupDefaultAd() {
+        // 로컬 스토리지에서 광고 숨김 상태 확인
+        const hiddenAds = localStorage.getItem('hiddenAds');
+        if (hiddenAds === 'true') {
+            // 광고가 숨겨진 상태라면 표시하지 않음
+            return;
+        }
+        
+        // 광고 설정 파일의 설정을 사용 (다국어 지원)
+        if (window.AD_CONFIG && window.AD_CONFIG.enabled) {
+            this.updateAd(
+                window.AD_CONFIG.getTitle(),
+                window.AD_CONFIG.getDescription(),
+                window.AD_CONFIG.link
+            );
+        }
+    }
+}
+
+// 앱 초기화
+let memoApp;
+document.addEventListener('DOMContentLoaded', () => {
+    memoApp = new MemoApp();
+});
+
+// 페이지 새로고침 시 편집 모드 초기화
+window.addEventListener('beforeunload', () => {
+    if (memoApp && memoApp.currentEditId !== null) {
+        memoApp.currentEditId = null;
+    }
+});

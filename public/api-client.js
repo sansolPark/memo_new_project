@@ -1,1 +1,91 @@
-(function(_0x197767,_0x572405){const _0x1b6bbc=_0x1862,_0x54e62a=_0x197767();while(!![]){try{const _0x5a6650=-parseInt(_0x1b6bbc(0x18c))/0x1+parseInt(_0x1b6bbc(0x198))/0x2+parseInt(_0x1b6bbc(0x189))/0x3+-parseInt(_0x1b6bbc(0x192))/0x4*(parseInt(_0x1b6bbc(0x190))/0x5)+-parseInt(_0x1b6bbc(0x195))/0x6+parseInt(_0x1b6bbc(0x187))/0x7*(parseInt(_0x1b6bbc(0x191))/0x8)+-parseInt(_0x1b6bbc(0x188))/0x9*(parseInt(_0x1b6bbc(0x18b))/0xa);if(_0x5a6650===_0x572405)break;else _0x54e62a['push'](_0x54e62a['shift']());}catch(_0x54dc48){_0x54e62a['push'](_0x54e62a['shift']());}}}(_0x5f0f,0xea9ee));const API={async 'getMemos'(){const _0x216779=_0x1862;try{const _0x268826=await fetch(_0x216779(0x196)),_0x5eaa13=await _0x268826['json']();if(!_0x5eaa13['success'])throw new Error(_0x5eaa13[_0x216779(0x18a)]);return{'data':_0x5eaa13['data'],'error':null};}catch(_0x4e74e1){return console[_0x216779(0x18a)](_0x216779(0x197),_0x4e74e1),{'data':null,'error':_0x4e74e1};}},async 'addMemo'(_0x502d4d){const _0x12cb7f=_0x1862;try{const _0x1164b4=await fetch(_0x12cb7f(0x196),{'method':'POST','headers':{'Content-Type':_0x12cb7f(0x194)},'body':JSON[_0x12cb7f(0x18d)]({'content':_0x502d4d})}),_0x3d336d=await _0x1164b4[_0x12cb7f(0x18e)]();if(!_0x3d336d[_0x12cb7f(0x18f)])throw new Error(_0x3d336d[_0x12cb7f(0x18a)]);return{'data':_0x3d336d['data'],'error':null};}catch(_0x1bfe94){return console[_0x12cb7f(0x18a)](_0x12cb7f(0x197),_0x1bfe94),{'data':null,'error':_0x1bfe94};}},async 'updateMemo'(_0x468e0f,_0x22ce55){const _0x371745=_0x1862;try{const _0x35360c=await fetch(_0x371745(0x196),{'method':'PUT','headers':{'Content-Type':_0x371745(0x194)},'body':JSON[_0x371745(0x18d)]({'id':_0x468e0f,'content':_0x22ce55})}),_0x166d1d=await _0x35360c['json']();if(!_0x166d1d['success'])throw new Error(_0x166d1d[_0x371745(0x18a)]);return{'data':_0x166d1d[_0x371745(0x193)],'error':null};}catch(_0x454693){return console['error'](_0x371745(0x197),_0x454693),{'data':null,'error':_0x454693};}},async 'deleteMemo'(_0x5d6b96){const _0x151003=_0x1862;try{const _0x1a6363=await fetch(_0x151003(0x196),{'method':'DELETE','headers':{'Content-Type':_0x151003(0x194)},'body':JSON[_0x151003(0x18d)]({'id':_0x5d6b96})}),_0x267699=await _0x1a6363['json']();if(!_0x267699['success'])throw new Error(_0x267699[_0x151003(0x18a)]);return{'error':null};}catch(_0x4fd531){return console[_0x151003(0x18a)]('API\x20Error:',_0x4fd531),{'error':_0x4fd531};}}};function _0x1862(_0x1434d7,_0x48d72e){const _0x5f0f3e=_0x5f0f();return _0x1862=function(_0x1862e9,_0x51c0a2){_0x1862e9=_0x1862e9-0x187;let _0x325cf8=_0x5f0f3e[_0x1862e9];return _0x325cf8;},_0x1862(_0x1434d7,_0x48d72e);}function _0x5f0f(){const _0x914be8=['3128Azputp','data','application/json','3040890RgXiZL','/api/memos','API\x20Error:','3162616TEmLHz','7RwmBFs','5422113PUKZEF','3989862gfqmim','error','10frxHHd','526680hcmnrm','stringify','json','success','2605UYMmTc','744944FlCBYo'];_0x5f0f=function(){return _0x914be8;};return _0x5f0f();}
+// 서버 API 클라이언트 (Supabase 직접 호출 대체)
+const API = {
+    // 메모 목록 조회
+    async getMemos() {
+        try {
+            const response = await fetch('/api/memos');
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error);
+            }
+            
+            return { data: result.data, error: null };
+        } catch (error) {
+            console.error('API Error:', error);
+            return { data: null, error };
+        }
+    },
+    
+    // 메모 추가
+    async addMemo(content) {
+        try {
+            const response = await fetch('/api/memos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content })
+            });
+            
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error);
+            }
+            
+            return { data: result.data, error: null };
+        } catch (error) {
+            console.error('API Error:', error);
+            return { data: null, error };
+        }
+    },
+    
+    // 메모 수정
+    async updateMemo(id, content) {
+        try {
+            const response = await fetch('/api/memos', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, content })
+            });
+            
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error);
+            }
+            
+            return { data: result.data, error: null };
+        } catch (error) {
+            console.error('API Error:', error);
+            return { data: null, error };
+        }
+    },
+    
+    // 메모 삭제
+    async deleteMemo(id) {
+        try {
+            const response = await fetch('/api/memos', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id })
+            });
+            
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error);
+            }
+            
+            return { error: null };
+        } catch (error) {
+            console.error('API Error:', error);
+            return { error };
+        }
+    }
+};

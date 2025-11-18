@@ -1,1 +1,42 @@
-function _0x2c95(_0x52de91,_0x286fdf){const _0x3b982b=_0x3b98();return _0x2c95=function(_0x2c95ba,_0x2e90d8){_0x2c95ba=_0x2c95ba-0x6a;let _0x452907=_0x3b982b[_0x2c95ba];return _0x452907;},_0x2c95(_0x52de91,_0x286fdf);}(function(_0x3b2a2a,_0x118c9e){const _0x43fbdb=_0x2c95,_0xad03a1=_0x3b2a2a();while(!![]){try{const _0x313bb6=-parseInt(_0x43fbdb(0x6c))/0x1+-parseInt(_0x43fbdb(0x73))/0x2*(parseInt(_0x43fbdb(0x77))/0x3)+-parseInt(_0x43fbdb(0x76))/0x4+-parseInt(_0x43fbdb(0x78))/0x5*(-parseInt(_0x43fbdb(0x6e))/0x6)+parseInt(_0x43fbdb(0x79))/0x7*(parseInt(_0x43fbdb(0x75))/0x8)+parseInt(_0x43fbdb(0x6d))/0x9+parseInt(_0x43fbdb(0x6b))/0xa*(parseInt(_0x43fbdb(0x6a))/0xb);if(_0x313bb6===_0x118c9e)break;else _0xad03a1['push'](_0xad03a1['shift']());}catch(_0x39e6cf){_0xad03a1['push'](_0xad03a1['shift']());}}}(_0x3b98,0xa58ae));function _0x3b98(){const _0x142f48=['error','notifyBannedWords','Validation\x20failed','application/json','1498904MziSzF','130WhwDYd','1138898tiMaGg','9034128dENHUy','18TpcghN','POST','notifyContentRequired','/api/validate','Server\x20validation\x20error:','4qWrmwJ','json','8HgilcQ','5162172ghuvqZ','1194429vgsYyM','795610JNeASF','4558393GTDxIE','i18n'];_0x3b98=function(){return _0x142f48;};return _0x3b98();}async function validateWithServer(_0x554add){const _0x1e825b=_0x2c95;try{const _0x1a9854=await fetch(_0x1e825b(0x71),{'method':_0x1e825b(0x6f),'headers':{'Content-Type':_0x1e825b(0x7e)},'body':JSON['stringify']({'content':_0x554add})}),_0x50f709=await _0x1a9854[_0x1e825b(0x74)]();if(!_0x50f709['valid']){const _0x307ae4={'INVALID_CONTENT':window['i18n']['t'](_0x1e825b(0x70)),'CONTENT_TOO_LONG':'Content\x20is\x20too\x20long','BANNED_WORDS':window[_0x1e825b(0x7a)]['t'](_0x1e825b(0x7c)),'NUMBERS_NOT_ALLOWED':window['i18n']['t']('notifyNumbersNotAllowed')};return{'isValid':![],'message':_0x307ae4[_0x50f709[_0x1e825b(0x7b)]]||_0x1e825b(0x7d)};}return{'isValid':!![]};}catch(_0x253cdd){return console['error'](_0x1e825b(0x72),_0x253cdd),{'isValid':!![]};}}function quickValidate(_0x24b419){if(!_0x24b419||_0x24b419['length']>0x1f4)return![];return!![];}
+// 서버 측 검증 API 호출
+async function validateWithServer(content) {
+    try {
+        const response = await fetch('/api/validate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ content })
+        });
+        
+        const result = await response.json();
+        
+        if (!result.valid) {
+            const errorMessages = {
+                'INVALID_CONTENT': window.i18n.t('notifyContentRequired'),
+                'CONTENT_TOO_LONG': 'Content is too long',
+                'BANNED_WORDS': window.i18n.t('notifyBannedWords'),
+                'NUMBERS_NOT_ALLOWED': window.i18n.t('notifyNumbersNotAllowed')
+            };
+            
+            return {
+                isValid: false,
+                message: errorMessages[result.error] || 'Validation failed'
+            };
+        }
+        
+        return { isValid: true };
+    } catch (error) {
+        console.error('Server validation error:', error);
+        // 서버 오류 시 클라이언트 검증으로 폴백
+        return { isValid: true };
+    }
+}
+
+// 클라이언트 측 빠른 검증 (UX 개선용)
+function quickValidate(content) {
+    if (!content || content.length > 500) {
+        return false;
+    }
+    return true;
+}

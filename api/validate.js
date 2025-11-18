@@ -1,1 +1,61 @@
-const _0x4c7c92=_0x5b39;function _0x5b39(_0x1e7053,_0x5e72d1){const _0x56f291=_0x56f2();return _0x5b39=function(_0x5b3989,_0x104da3){_0x5b3989=_0x5b3989-0x1f0;let _0x343985=_0x56f291[_0x5b3989];return _0x343985;},_0x5b39(_0x1e7053,_0x5e72d1);}(function(_0x163f36,_0xf034){const _0x41ea48=_0x5b39,_0xc2e662=_0x163f36();while(!![]){try{const _0x1cc87c=-parseInt(_0x41ea48(0x204))/0x1+-parseInt(_0x41ea48(0x1f6))/0x2+parseInt(_0x41ea48(0x1f8))/0x3+-parseInt(_0x41ea48(0x1fa))/0x4+-parseInt(_0x41ea48(0x212))/0x5*(-parseInt(_0x41ea48(0x1f2))/0x6)+-parseInt(_0x41ea48(0x1f1))/0x7*(-parseInt(_0x41ea48(0x200))/0x8)+-parseInt(_0x41ea48(0x211))/0x9*(parseInt(_0x41ea48(0x202))/0xa);if(_0x1cc87c===_0xf034)break;else _0xc2e662['push'](_0xc2e662['shift']());}catch(_0x106716){_0xc2e662['push'](_0xc2e662['shift']());}}}(_0x56f2,0x2cd95));const bannedWords=['바보',_0x4c7c92(0x20f),'병신','미친',_0x4c7c92(0x206),'씨발','좆','존나','개놈','년','놈','죽어','꺼져','닥쳐','시발',_0x4c7c92(0x1f3),'새끼','븅신',_0x4c7c92(0x1fb),_0x4c7c92(0x207),'장애','개빡',_0x4c7c92(0x213),_0x4c7c92(0x201),_0x4c7c92(0x1ff),'한심',_0x4c7c92(0x203),'추남','추녀','돼지','뚱보','개뚱',_0x4c7c92(0x1fe),_0x4c7c92(0x20b),'개구림',_0x4c7c92(0x1f4)];function validateContent(_0x5ea72d){const _0xe53b0=_0x4c7c92;if(!_0x5ea72d||typeof _0x5ea72d!==_0xe53b0(0x20c))return{'valid':![],'error':'INVALID_CONTENT'};if(_0x5ea72d[_0xe53b0(0x210)]>0x1f4)return{'valid':![],'error':_0xe53b0(0x20e)};const _0x37ca0d=_0x5ea72d[_0xe53b0(0x1f5)]()['replace'](/[\s\-_.,!?]/g,'')[_0xe53b0(0x1fc)](/[ㄱ-ㅎㅏ-ㅣ]/g,'');for(const _0x119d02 of bannedWords){const _0x582025=_0x119d02[_0xe53b0(0x1f5)]()[_0xe53b0(0x1fc)](/[\s\-_.,!?]/g,'');if(_0x37ca0d[_0xe53b0(0x205)](_0x582025))return{'valid':![],'error':'BANNED_WORDS'};}if(/\d/[_0xe53b0(0x1f0)](_0x5ea72d))return{'valid':![],'error':'NUMBERS_NOT_ALLOWED'};return{'valid':!![]};}function _0x56f2(){const _0x3e0257=['error','개못해','string','status','CONTENT_TOO_LONG','멍청이','length','54PVMJoc','965YqEIYl','개쓰레기','test','7eqLHrO','11106nwYasG','개자식','개더러워','toLowerCase','284232VzhJyq','valid','60072WfvlFt','POST,OPTIONS','1073392QSUutm','또라이','replace','OPTIONS','개못남','쪽팔려','2542208BPSCpD','쓰레기','47360PfCuOa','개못생김','72462TdTZlV','includes','개새끼','정신병','end','setHeader'];_0x56f2=function(){return _0x3e0257;};return _0x56f2();}export default async function handler(_0x3fee3f,_0xeeaa25){const _0x1c8a11=_0x4c7c92;_0xeeaa25['setHeader']('Access-Control-Allow-Credentials',!![]),_0xeeaa25[_0x1c8a11(0x209)]('Access-Control-Allow-Origin','*'),_0xeeaa25['setHeader']('Access-Control-Allow-Methods',_0x1c8a11(0x1f9)),_0xeeaa25[_0x1c8a11(0x209)]('Access-Control-Allow-Headers','Content-Type');if(_0x3fee3f['method']===_0x1c8a11(0x1fd)){_0xeeaa25['status'](0xc8)[_0x1c8a11(0x208)]();return;}if(_0x3fee3f['method']!=='POST')return _0xeeaa25['status'](0x195)['json']({'valid':![],'error':'Method\x20not\x20allowed'});const {content:_0x203b08}=_0x3fee3f['body'],_0x4f1159=validateContent(_0x203b08);if(!_0x4f1159[_0x1c8a11(0x1f7)])return _0xeeaa25['status'](0x190)['json']({'valid':![],'error':_0x4f1159[_0x1c8a11(0x20a)]});_0xeeaa25[_0x1c8a11(0x20d)](0xc8)['json']({'valid':!![]});}
+// Vercel Serverless Function - 검증 API
+const bannedWords = [
+  "바보", "멍청이", "병신", "미친", "개새끼", "씨발", "좆", "존나", 
+  "개놈", "년", "놈", "죽어", "꺼져", "닥쳐", "시발", "개자식",
+  "새끼", "븅신", "또라이", "정신병", "장애", "개빡", "개쓰레기",
+  "쓰레기", "쪽팔려", "한심", "개못생김", "추남", "추녀", "돼지",
+  "뚱보", "개뚱", "개못남", "개못해", "개구림", "개더러워"
+];
+
+function validateContent(content) {
+  if (!content || typeof content !== 'string') {
+    return { valid: false, error: 'INVALID_CONTENT' };
+  }
+  
+  if (content.length > 500) {
+    return { valid: false, error: 'CONTENT_TOO_LONG' };
+  }
+  
+  const normalizedContent = content
+    .toLowerCase()
+    .replace(/[\s\-_.,!?]/g, '')
+    .replace(/[ㄱ-ㅎㅏ-ㅣ]/g, '');
+  
+  for (const word of bannedWords) {
+    const normalizedWord = word.toLowerCase().replace(/[\s\-_.,!?]/g, '');
+    if (normalizedContent.includes(normalizedWord)) {
+      return { valid: false, error: 'BANNED_WORDS' };
+    }
+  }
+  
+  if (/\d/.test(content)) {
+    return { valid: false, error: 'NUMBERS_NOT_ALLOWED' };
+  }
+  
+  return { valid: true };
+}
+
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ valid: false, error: 'Method not allowed' });
+  }
+
+  const { content } = req.body;
+  const validation = validateContent(content);
+  
+  if (!validation.valid) {
+    return res.status(400).json({ valid: false, error: validation.error });
+  }
+  
+  res.status(200).json({ valid: true });
+}

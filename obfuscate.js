@@ -7,6 +7,8 @@ const filesToObfuscate = [
     'public/script.js',
     'public/validation.js',
     'public/api-client.js',
+    'public/delete-credits.js',
+    'public/ad-modal.js',
     'api/memos.js',
     'api/validate.js'
 ];
