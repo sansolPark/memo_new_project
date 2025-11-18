@@ -944,20 +944,17 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    opacity: 0.6;
 }
 
 .ad-close-btn.enabled {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    opacity: 1;
 }
 
 .ad-close-btn.enabled:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-}
-
-.ad-close-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
 }
 
 /* 모바일 최적화 */

@@ -142,9 +142,13 @@ class AdModal {
         const closeBtn = document.createElement('button');
         closeBtn.id = 'adCloseBtn';
         closeBtn.className = 'ad-close-btn';
-        closeBtn.disabled = true;
         closeBtn.innerHTML = '<i class="fas fa-times"></i> 닫기';
-        closeBtn.addEventListener('click', () => this.close());
+        closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('닫기 버튼 클릭됨, canClose:', this.canClose);
+            this.close();
+        });
 
         // 조립
         adContainer.appendChild(adContent);
@@ -213,14 +217,15 @@ class AdModal {
         this.canClose = true;
         const closeBtn = document.getElementById('adCloseBtn');
         if (closeBtn) {
-            closeBtn.disabled = false;
             closeBtn.classList.add('enabled');
             closeBtn.style.cursor = 'pointer';
+            console.log('닫기 버튼 활성화됨');
         }
     }
 
     close() {
-        // canClose 체크 제거 - 항상 닫을 수 있도록
+        console.log('close() 호출됨, canClose:', this.canClose);
+        
         const overlay = document.getElementById('adModalOverlay');
         if (overlay) {
             overlay.classList.remove('show');
@@ -235,18 +240,25 @@ class AdModal {
             this.imageTimer = null;
         }
 
+        // 삭제권 지급 여부 저장
+        const shouldReward = this.canClose;
+
         // 삭제권 지급 (닫기 버튼이 활성화된 경우에만)
-        if (this.canClose && window.deleteCreditsManager) {
+        if (shouldReward && window.deleteCreditsManager) {
+            console.log('삭제권 지급');
             window.deleteCreditsManager.rewardCredits();
+        } else {
+            console.log('삭제권 지급 안 함 (광고 미완료)');
         }
 
         this.isShowing = false;
+        const wasComplete = this.canClose;
         this.canClose = false;
         this.currentAd = null;
 
         // Promise resolve
         if (this.onCloseCallback) {
-            this.onCloseCallback(this.canClose); // canClose 상태 전달
+            this.onCloseCallback(wasComplete);
             this.onCloseCallback = null;
         }
     }
