@@ -72,7 +72,8 @@ class AdModal {
         // 광고 보기 버튼
         const watchBtn = document.createElement('button');
         watchBtn.className = 'ad-watch-btn';
-        watchBtn.innerHTML = '<i class="fas fa-play-circle"></i> 광고 보기';
+        const watchBtnText = window.i18n ? window.i18n.t('adWatchButton') : '광고 보기';
+        watchBtn.innerHTML = `<i class="fas fa-play-circle"></i> ${watchBtnText}`;
         watchBtn.addEventListener('click', () => {
             overlay.remove();
             this.canClose = false;
@@ -83,7 +84,7 @@ class AdModal {
         // 취소 버튼
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'ad-cancel-btn';
-        cancelBtn.textContent = '취소';
+        cancelBtn.textContent = window.i18n ? window.i18n.t('adCancelButton') : '취소';
         cancelBtn.addEventListener('click', () => {
             overlay.remove();
             this.isShowing = false;
@@ -136,13 +137,15 @@ class AdModal {
         linkBtn.href = this.currentAd.link;
         linkBtn.target = '_blank';
         linkBtn.rel = 'noopener noreferrer';
-        linkBtn.innerHTML = '<i class="fas fa-book-open"></i> 전자책 보러가기 클릭';
+        const linkBtnText = window.i18n ? window.i18n.t('adLinkButton') : '전자책 보러가기 클릭';
+        linkBtn.innerHTML = `<i class="fas fa-book-open"></i> ${linkBtnText}`;
 
         // 닫기 버튼
         const closeBtn = document.createElement('button');
         closeBtn.id = 'adCloseBtn';
         closeBtn.className = 'ad-close-btn';
-        closeBtn.innerHTML = '<i class="fas fa-times"></i> 닫기';
+        const closeBtnText = window.i18n ? window.i18n.t('adCloseButton') : '닫기';
+        closeBtn.innerHTML = `<i class="fas fa-times"></i> ${closeBtnText}`;
         closeBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -238,7 +241,10 @@ class AdModal {
     }
 
     updateTimerDisplay(button, seconds) {
-        button.innerHTML = `<i class="fas fa-clock"></i> ${seconds}초 후 닫기`;
+        const timerText = window.i18n ? 
+            window.i18n.t('adTimerText', { seconds }) : 
+            `${seconds}초 후 닫기`;
+        button.innerHTML = `<i class="fas fa-clock"></i> ${timerText}`;
         button.classList.remove('enabled');
         button.classList.add('timer-active');
     }
@@ -270,7 +276,8 @@ class AdModal {
         this.canClose = true;
         const closeBtn = document.getElementById('adCloseBtn');
         if (closeBtn) {
-            closeBtn.innerHTML = '<i class="fas fa-times"></i> 닫기';
+            const closeBtnText = window.i18n ? window.i18n.t('adCloseButton') : '닫기';
+            closeBtn.innerHTML = `<i class="fas fa-times"></i> ${closeBtnText}`;
             closeBtn.classList.remove('timer-active');
             closeBtn.classList.add('enabled');
             closeBtn.style.cursor = 'pointer';
