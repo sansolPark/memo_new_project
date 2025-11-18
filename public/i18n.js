@@ -67,7 +67,7 @@ const translations = {
         deleteCredits: "삭제권: {count}회",
         notifyCreditsRewarded: "삭제권 7회가 지급되었습니다!",
         notifyNoCredits: "삭제권이 부족합니다. 광고를 시청해주세요.",
-        adInfoText: "광고 시청 후 삭제 가능해요"
+        adConfirmText: "광고 시청 후 삭제 가능해요"
     },
     en: {
         // Header
@@ -136,7 +136,7 @@ const translations = {
         deleteCredits: "Delete Credits: {count}",
         notifyCreditsRewarded: "7 delete credits have been rewarded!",
         notifyNoCredits: "Not enough delete credits. Please watch an ad.",
-        adInfoText: "Watch the ad to delete memos"
+        adConfirmText: "Watch the ad to delete memos"
     }
 };
 

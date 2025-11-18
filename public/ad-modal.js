@@ -40,12 +40,71 @@ class AdModal {
             }
 
             this.isShowing = true;
-            this.canClose = false;
-            this.currentAd = this.getRandomAd();
             this.onCloseCallback = resolve;
 
+            // 1단계: 광고 보기 확인 모달
+            this.showConfirmModal();
+        });
+    }
+
+    showConfirmModal() {
+        // 확인 모달 오버레이
+        const overlay = document.createElement('div');
+        overlay.id = 'adConfirmOverlay';
+        overlay.className = 'ad-modal-overlay';
+
+        // 확인 모달
+        const modal = document.createElement('div');
+        modal.className = 'ad-modal ad-confirm-modal';
+
+        // 아이콘
+        const icon = document.createElement('div');
+        icon.className = 'ad-confirm-icon';
+        icon.innerHTML = '<i class="fas fa-tv"></i>';
+
+        // 안내 텍스트
+        const infoText = document.createElement('p');
+        infoText.className = 'ad-confirm-text';
+        infoText.textContent = window.i18n ? 
+            window.i18n.t('adConfirmText') : 
+            '광고 시청 후 삭제 가능해요';
+
+        // 광고 보기 버튼
+        const watchBtn = document.createElement('button');
+        watchBtn.className = 'ad-watch-btn';
+        watchBtn.innerHTML = '<i class="fas fa-play-circle"></i> 광고 보기';
+        watchBtn.addEventListener('click', () => {
+            overlay.remove();
+            this.canClose = false;
+            this.currentAd = this.getRandomAd();
             this.createModal();
         });
+
+        // 취소 버튼
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'ad-cancel-btn';
+        cancelBtn.textContent = '취소';
+        cancelBtn.addEventListener('click', () => {
+            overlay.remove();
+            this.isShowing = false;
+            if (this.onCloseCallback) {
+                this.onCloseCallback(false);
+                this.onCloseCallback = null;
+            }
+        });
+
+        // 조립
+        modal.appendChild(icon);
+        modal.appendChild(infoText);
+        modal.appendChild(watchBtn);
+        modal.appendChild(cancelBtn);
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        // 애니메이션
+        setTimeout(() => {
+            overlay.classList.add('show');
+        }, 10);
     }
 
     createModal() {
@@ -71,12 +130,13 @@ class AdModal {
             adContent = this.createImageAd();
         }
 
-        // 안내 텍스트
-        const infoText = document.createElement('p');
-        infoText.className = 'ad-info-text';
-        infoText.textContent = window.i18n ? 
-            window.i18n.t('adInfoText') : 
-            '광고 시청 후 삭제 가능해요';
+        // 전자책 보러가기 버튼
+        const linkBtn = document.createElement('a');
+        linkBtn.className = 'ad-link-btn';
+        linkBtn.href = this.currentAd.link;
+        linkBtn.target = '_blank';
+        linkBtn.rel = 'noopener noreferrer';
+        linkBtn.innerHTML = '<i class="fas fa-book-open"></i> 전자책 보러가기 클릭';
 
         // 닫기 버튼
         const closeBtn = document.createElement('button');
@@ -89,7 +149,7 @@ class AdModal {
         // 조립
         adContainer.appendChild(adContent);
         modal.appendChild(adContainer);
-        modal.appendChild(infoText);
+        modal.appendChild(linkBtn);
         modal.appendChild(closeBtn);
         overlay.appendChild(modal);
         document.body.appendChild(overlay);
@@ -155,14 +215,12 @@ class AdModal {
         if (closeBtn) {
             closeBtn.disabled = false;
             closeBtn.classList.add('enabled');
+            closeBtn.style.cursor = 'pointer';
         }
     }
 
     close() {
-        if (!this.canClose) {
-            return;
-        }
-
+        // canClose 체크 제거 - 항상 닫을 수 있도록
         const overlay = document.getElementById('adModalOverlay');
         if (overlay) {
             overlay.classList.remove('show');
@@ -177,8 +235,8 @@ class AdModal {
             this.imageTimer = null;
         }
 
-        // 삭제권 지급
-        if (window.deleteCreditsManager) {
+        // 삭제권 지급 (닫기 버튼이 활성화된 경우에만)
+        if (this.canClose && window.deleteCreditsManager) {
             window.deleteCreditsManager.rewardCredits();
         }
 
@@ -188,7 +246,7 @@ class AdModal {
 
         // Promise resolve
         if (this.onCloseCallback) {
-            this.onCloseCallback(true);
+            this.onCloseCallback(this.canClose); // canClose 상태 전달
             this.onCloseCallback = null;
         }
     }
