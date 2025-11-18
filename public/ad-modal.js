@@ -198,52 +198,74 @@ class AdModal {
     }
 
     startTimer(seconds) {
+        console.log('타이머 시작:', seconds, '초');
         let remaining = seconds;
-        const closeBtn = document.getElementById('adCloseBtn');
         
-        if (!closeBtn) return;
-
-        // 초기 표시
-        this.updateTimerDisplay(closeBtn, remaining);
-
-        // 1초마다 업데이트
-        this.timerInterval = setInterval(() => {
-            remaining--;
+        // 약간의 지연 후 버튼 찾기 (DOM 생성 대기)
+        setTimeout(() => {
+            const closeBtn = document.getElementById('adCloseBtn');
             
-            if (remaining > 0) {
-                this.updateTimerDisplay(closeBtn, remaining);
-            } else {
-                clearInterval(this.timerInterval);
-                this.enableCloseButton();
+            if (!closeBtn) {
+                console.error('닫기 버튼을 찾을 수 없습니다');
+                return;
             }
-        }, 1000);
+
+            console.log('닫기 버튼 찾음, 타이머 표시 시작');
+
+            // 초기 표시
+            this.updateTimerDisplay(closeBtn, remaining);
+
+            // 1초마다 업데이트
+            this.timerInterval = setInterval(() => {
+                remaining--;
+                console.log('타이머 업데이트:', remaining);
+                
+                if (remaining > 0) {
+                    this.updateTimerDisplay(closeBtn, remaining);
+                } else {
+                    clearInterval(this.timerInterval);
+                    this.enableCloseButton();
+                }
+            }, 1000);
+        }, 100);
     }
 
     startVideoTimer(video, totalSeconds) {
-        const closeBtn = document.getElementById('adCloseBtn');
+        console.log('동영상 타이머 시작:', totalSeconds, '초');
         
-        if (!closeBtn) return;
-
-        // 초기 표시
-        const remaining = Math.ceil(totalSeconds - video.currentTime);
-        this.updateTimerDisplay(closeBtn, remaining);
-
-        // 동영상 재생 중 업데이트
-        this.timerInterval = setInterval(() => {
-            const currentRemaining = Math.ceil(totalSeconds - video.currentTime);
+        setTimeout(() => {
+            const closeBtn = document.getElementById('adCloseBtn');
             
-            if (currentRemaining > 0) {
-                this.updateTimerDisplay(closeBtn, currentRemaining);
-            } else {
-                clearInterval(this.timerInterval);
+            if (!closeBtn) {
+                console.error('닫기 버튼을 찾을 수 없습니다');
+                return;
             }
-        }, 1000);
+
+            console.log('닫기 버튼 찾음, 동영상 타이머 표시 시작');
+
+            // 초기 표시
+            const remaining = Math.ceil(totalSeconds - video.currentTime);
+            this.updateTimerDisplay(closeBtn, remaining);
+
+            // 동영상 재생 중 업데이트
+            this.timerInterval = setInterval(() => {
+                const currentRemaining = Math.ceil(totalSeconds - video.currentTime);
+                console.log('동영상 타이머 업데이트:', currentRemaining);
+                
+                if (currentRemaining > 0) {
+                    this.updateTimerDisplay(closeBtn, currentRemaining);
+                } else {
+                    clearInterval(this.timerInterval);
+                }
+            }, 1000);
+        }, 100);
     }
 
     updateTimerDisplay(button, seconds) {
         const timerText = window.i18n ? 
             window.i18n.t('adTimerText', { seconds }) : 
             `${seconds}초 후 닫기`;
+        console.log('타이머 표시 업데이트:', timerText);
         button.innerHTML = `<i class="fas fa-clock"></i> ${timerText}`;
         button.classList.remove('enabled');
         button.classList.add('timer-active');
