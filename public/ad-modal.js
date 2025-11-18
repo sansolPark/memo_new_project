@@ -172,6 +172,12 @@ class AdModal {
         video.playsInline = true;
         video.controls = false;
 
+        // 동영상 메타데이터 로드 시 타이머 시작
+        video.addEventListener('loadedmetadata', () => {
+            const duration = Math.ceil(video.duration);
+            this.startVideoTimer(video, duration);
+        });
+
         // 동영상 종료 시 닫기 버튼 활성화
         video.addEventListener('ended', () => {
             this.enableCloseButton();
@@ -186,6 +192,55 @@ class AdModal {
         video.style.cursor = 'pointer';
 
         return video;
+    }
+
+    startTimer(seconds) {
+        let remaining = seconds;
+        const closeBtn = document.getElementById('adCloseBtn');
+        
+        if (!closeBtn) return;
+
+        // 초기 표시
+        this.updateTimerDisplay(closeBtn, remaining);
+
+        // 1초마다 업데이트
+        this.timerInterval = setInterval(() => {
+            remaining--;
+            
+            if (remaining > 0) {
+                this.updateTimerDisplay(closeBtn, remaining);
+            } else {
+                clearInterval(this.timerInterval);
+                this.enableCloseButton();
+            }
+        }, 1000);
+    }
+
+    startVideoTimer(video, totalSeconds) {
+        const closeBtn = document.getElementById('adCloseBtn');
+        
+        if (!closeBtn) return;
+
+        // 초기 표시
+        const remaining = Math.ceil(totalSeconds - video.currentTime);
+        this.updateTimerDisplay(closeBtn, remaining);
+
+        // 동영상 재생 중 업데이트
+        this.timerInterval = setInterval(() => {
+            const currentRemaining = Math.ceil(totalSeconds - video.currentTime);
+            
+            if (currentRemaining > 0) {
+                this.updateTimerDisplay(closeBtn, currentRemaining);
+            } else {
+                clearInterval(this.timerInterval);
+            }
+        }, 1000);
+    }
+
+    updateTimerDisplay(button, seconds) {
+        button.innerHTML = `<i class="fas fa-clock"></i> ${seconds}초 후 닫기`;
+        button.classList.remove('enabled');
+        button.classList.add('timer-active');
     }
 
     createImageAd() {
@@ -205,10 +260,8 @@ class AdModal {
         imageWrapper.style.cursor = 'pointer';
         imageWrapper.appendChild(image);
 
-        // 5초 후 닫기 버튼 활성화
-        this.imageTimer = setTimeout(() => {
-            this.enableCloseButton();
-        }, 5000);
+        // 타이머 시작 (5초)
+        this.startTimer(5);
 
         return imageWrapper;
     }
@@ -217,6 +270,8 @@ class AdModal {
         this.canClose = true;
         const closeBtn = document.getElementById('adCloseBtn');
         if (closeBtn) {
+            closeBtn.innerHTML = '<i class="fas fa-times"></i> 닫기';
+            closeBtn.classList.remove('timer-active');
             closeBtn.classList.add('enabled');
             closeBtn.style.cursor = 'pointer';
             console.log('닫기 버튼 활성화됨');
@@ -238,6 +293,11 @@ class AdModal {
         if (this.imageTimer) {
             clearTimeout(this.imageTimer);
             this.imageTimer = null;
+        }
+
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
         }
 
         // 삭제권 지급 여부 저장
