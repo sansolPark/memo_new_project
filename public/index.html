@@ -47,9 +47,13 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- 폰트 preload로 최적화 -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Font Awesome 지연 로딩 -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
 </head>
 <body>
     <div class="container">
@@ -120,14 +124,15 @@
         </footer>
     </div>
 
-    <script src="i18n.js"></script>
-    <script src="delete-credits.js"></script>
-    <script src="ad-modal.js"></script>
-    <script src="validation.js"></script>
-    <script src="api-client.js"></script>
-    <script src="ad-config.js"></script>
-    <script src="pwa-install.js"></script>
-    <script src="script.js"></script>
+    <!-- 스크립트 지연 로딩 및 최적화 -->
+    <script defer src="i18n.js"></script>
+    <script defer src="delete-credits.js"></script>
+    <script defer src="ad-modal.js"></script>
+    <script defer src="validation.js"></script>
+    <script defer src="api-client.js"></script>
+    <script defer src="ad-config.js"></script>
+    <script defer src="pwa-install.js"></script>
+    <script defer src="script.js"></script>
     
     <!-- Vercel Analytics -->
     <script src="/va-init.js"></script>

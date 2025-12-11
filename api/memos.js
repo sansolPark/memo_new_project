@@ -4,7 +4,26 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.SUPABASE_URL || 'https://bztetglagnmfgkznheeg.supabase.co';
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dGV0Z2xhZ25tZmdrem5oZWVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3NTU5NzcsImV4cCI6MjA1MjMzMTk3N30.Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq-Ks-Aq';
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Supabase 클라이언트 재사용을 위한 싱글톤 패턴
+let supabaseClient = null;
+function getSupabaseClient() {
+  if (!supabaseClient) {
+    supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
+      db: {
+        schema: 'public',
+      },
+      auth: {
+        persistSession: false, // 서버사이드에서는 세션 유지 불필요
+      },
+      global: {
+        headers: {
+          'Cache-Control': 'max-age=60', // 1분 캐시
+        },
+      },
+    });
+  }
+  return supabaseClient;
+}
 
 // Rate limiting (간단한 구현)
 const rateLimitMap = new Map();
@@ -67,11 +86,22 @@ function validateContent(content) {
 }
 
 export default async function handler(req, res) {
-  // CORS 설정
+  // CORS 및 캐싱 헤더 설정
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  
+  // 성능 최적화 헤더
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  
+  // GET 요청에 대한 캐싱 헤더
+  if (req.method === 'GET') {
+    res.setHeader('Cache-Control', 'public, max-age=60, stale-while-revalidate=30');
+    res.setHeader('ETag', `"${Date.now()}"`);
+  }
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -87,45 +117,58 @@ export default async function handler(req, res) {
   try {
     // GET: 메모 목록 조회
     if (req.method === 'GET') {
+      const supabase = getSupabaseClient();
+      
+      // 필요한 필드만 선택하여 데이터 전송량 최소화
       const { data, error } = await supabase
         .from('memos')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select('id, content, created_at, updated_at')
+        .order('created_at', { ascending: false })
+        .limit(7); // 최대 7개만 조회
 
       if (error) throw error;
 
-      return res.status(200).json({ success: true, data: data || [] });
+      return res.status(200).json({ 
+        success: true, 
+        data: data || [],
+        timestamp: Date.now() // 캐시 무효화를 위한 타임스탬프
+      });
     }
 
     // POST: 메모 추가
     if (req.method === 'POST') {
       const { content } = req.body;
+      const supabase = getSupabaseClient();
       
       const validation = validateContent(content);
       if (!validation.valid) {
         return res.status(400).json({ success: false, error: validation.error });
       }
       
-      const { count } = await supabase
+      // 더 효율적인 카운트 쿼리
+      const { count, error: countError } = await supabase
         .from('memos')
-        .select('*', { count: 'exact', head: true });
+        .select('id', { count: 'exact', head: true });
+      
+      if (countError) throw countError;
       
       if (count >= 7) {
         return res.status(400).json({ success: false, error: 'MEMO_LIMIT_REACHED' });
       }
       
+      const now = new Date().toISOString();
       const { data, error } = await supabase
         .from('memos')
         .insert([{
           content: content,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
+          created_at: now,
+          updated_at: now
         }])
-        .select();
+        .select('id, content, created_at, updated_at'); // 필요한 필드만 반환
 
       if (error) throw error;
 
-      return res.status(200).json({ success: true, data: data[0] });
+      return res.status(201).json({ success: true, data: data[0] });
     }
 
     // PUT: 메모 수정

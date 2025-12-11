@@ -120,6 +120,7 @@ class MemoApp {
                 // 새로 생성된 메모를 배열에 추가
                 if (data) {
                     this.memos.unshift(data);
+                    this.setCachedMemos(this.memos); // 캐시 업데이트
                     this.showNotification(window.i18n.t('notifyMemoAdded'), 'success');
                 }
             } catch (error) {
@@ -155,6 +156,7 @@ class MemoApp {
             const memoIndex = this.memos.findIndex(memo => memo.id === id);
             if (memoIndex !== -1 && data) {
                 this.memos[memoIndex] = data;
+                this.setCachedMemos(this.memos); // 캐시 업데이트
             }
 
             this.showNotification(window.i18n.t('notifyMemoUpdated'), 'success');
@@ -215,6 +217,7 @@ class MemoApp {
 
                 // 로컬 배열에서 제거
                 this.memos = this.memos.filter(memo => memo.id !== id);
+                this.setCachedMemos(this.memos); // 캐시 업데이트
                 this.updateUI();
                 this.showNotification(window.i18n.t('notifyMemoDeleted'), 'info');
             } catch (error) {
@@ -408,16 +411,69 @@ class MemoApp {
 
     async loadMemos() {
         try {
+            // 캐시된 데이터 먼저 확인
+            const cachedMemos = this.getCachedMemos();
+            if (cachedMemos) {
+                this.memos = cachedMemos;
+                this.updateUI();
+            }
+
             // 서버 API 호출
             const { data, error } = await API.getMemos();
 
             if (error) throw error;
 
             this.memos = data || [];
+            
+            // 캐시 업데이트
+            this.setCachedMemos(this.memos);
         } catch (error) {
             console.error('메모 로드 중 오류 발생:', error);
             this.showNotification(window.i18n.t('notifyLoadError'), 'error');
-            this.memos = [];
+            
+            // 캐시된 데이터가 없으면 빈 배열
+            if (!this.memos.length) {
+                this.memos = [];
+            }
+        }
+    }
+
+    // 메모 캐싱 메서드들
+    getCachedMemos() {
+        try {
+            const cached = localStorage.getItem('memos_cache');
+            const cacheTime = localStorage.getItem('memos_cache_time');
+            
+            if (cached && cacheTime) {
+                const now = Date.now();
+                const cacheAge = now - parseInt(cacheTime);
+                
+                // 5분 이내의 캐시만 사용
+                if (cacheAge < 5 * 60 * 1000) {
+                    return JSON.parse(cached);
+                }
+            }
+        } catch (error) {
+            console.error('캐시 읽기 오류:', error);
+        }
+        return null;
+    }
+
+    setCachedMemos(memos) {
+        try {
+            localStorage.setItem('memos_cache', JSON.stringify(memos));
+            localStorage.setItem('memos_cache_time', Date.now().toString());
+        } catch (error) {
+            console.error('캐시 저장 오류:', error);
+        }
+    }
+
+    clearMemosCache() {
+        try {
+            localStorage.removeItem('memos_cache');
+            localStorage.removeItem('memos_cache_time');
+        } catch (error) {
+            console.error('캐시 삭제 오류:', error);
         }
     }
 
